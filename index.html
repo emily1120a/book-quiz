@@ -3,30 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0f2340">
+<meta name="theme-color" content="#FAF8F5">
 <meta name="description" content="읽은 책을 퀴즈로 확인하는 북클럽, 북퀴즈 서재.">
 <title>북퀴즈 서재 · Book Quiz Hub</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f2340'/%3E%3Cpath d='M18 18h9a4 4 0 0 1 4 4v26a3 3 0 0 0-3-3h-10z' fill='%23ffffff' opacity='.95'/%3E%3Cpath d='M46 18h-9a4 4 0 0 0-4 4v26a3 3 0 0 1 3-3h10z' fill='%232563eb'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF6B3D'/%3E%3Cpath d='M18 18h9a4 4 0 0 1 4 4v26a3 3 0 0 0-3-3h-10z' fill='%23ffffff' opacity='.95'/%3E%3Cpath d='M46 18h-9a4 4 0 0 0-4 4v26a3 3 0 0 1 3-3h10z' fill='%23FFE3D3'/%3E%3C/svg%3E">
 <style>
   :root{
-    --navy:#0f2340;
-    --ink:#16233a;
-    --muted:#6b7a90;
-    --line:#e3e9f2;
-    --line-soft:#eef2f8;
-    --bg:#f4f7fb;
+    --bg:#FAF8F5;
     --panel:#ffffff;
-    --cobalt:#2563eb;
-    --cobalt-deep:#1d4ed8;
-    --cobalt-soft:#eaf1ff;
-    --orange:#f97316;
-    --orange-soft:#fff4ea;
-    --emerald:#10b981;
-    --emerald-soft:#ecfdf5;
-    --red:#e5484d;
-    --red-soft:#fef2f2;
+    --ink:#33291f;
+    --muted:#8d8377;
+    --line:#f0eae2;
+    --accent:#ff6b3d;
+    --accent-deep:#f4582c;
+    --grad:linear-gradient(135deg,#ffa262 0%,#ff6b3d 62%,#ff5a47 100%);
     --amber:#f59e0b;
-    --radius:18px;
+    --emerald:#10b981;
+    --red:#ef4444;
+    --radius:20px;
+    --shadow:0 12px 30px -20px rgba(112,74,44,.45);
+    --shadow-lift:0 18px 36px -22px rgba(112,74,44,.55);
   }
 
   *{ box-sizing:border-box; }
@@ -35,23 +31,25 @@
 
   body{
     margin:0;
-    padding:22px 16px 48px;
     min-height:100vh;
     font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",
                 system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;
     color:var(--ink);
     background:var(--bg);
     -webkit-tap-highlight-color:transparent;
+    padding-bottom:calc(84px + env(safe-area-inset-bottom));
   }
+  body.no-nav{ padding-bottom:32px; }
+  body.no-nav .tabbar{ display:none; }
 
-  .app{ width:100%; max-width:960px; margin:0 auto; }
+  .app{ width:100%; max-width:560px; margin:0 auto; padding:16px 18px 0; }
 
   .sr-only{
     position:absolute; width:1px; height:1px; padding:0; margin:-1px;
     overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
   }
 
-  :focus-visible{ outline:3px solid rgba(37,99,235,.45); outline-offset:2px; }
+  :focus-visible{ outline:3px solid rgba(255,107,61,.45); outline-offset:2px; }
 
   .screen{ display:none; }
   .screen.is-active{ display:block; animation:fade .22s ease both; }
@@ -61,118 +59,160 @@
     to{ opacity:1; transform:translateY(0); }
   }
 
-  /* ==================== 서재 : 상단 ==================== */
-  .hero{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:22px 22px 20px;
+  /* ==================== 상단 헤더 ==================== */
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:6px 2px 14px;
   }
-
-  .brand{ display:flex; align-items:center; gap:12px; }
   .brand-mark{
     flex:0 0 auto;
-    width:44px; height:44px;
-    border-radius:12px;
+    width:40px; height:40px;
+    border-radius:13px;
     display:grid; place-items:center;
-    background:var(--navy);
-    color:#fff;
+    background:var(--grad);
+    font-size:21px;
+    box-shadow:0 8px 16px -10px rgba(255,90,60,.8);
   }
-  .brand-mark svg{ display:block; }
-  .brand-text{ min-width:0; }
-  .brand-text h1{
+  .topbar h1{
+    flex:1 1 auto;
+    min-width:0;
     margin:0;
-    font-size:clamp(21px,4.4vw,27px);
-    line-height:1.2;
+    font-size:21px;
     font-weight:800;
     letter-spacing:-.02em;
-    color:var(--navy);
+    color:var(--ink);
   }
-  .brand-sub{
-    margin:3px 0 0;
-    font-size:12.5px;
-    font-weight:500;
-    color:var(--muted);
+  .badges{ display:flex; align-items:center; gap:8px; }
+  .badge-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:#fff1dc;
+    color:#b45309;
+    font-size:13px;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  .badge-pill.stars{ background:#fdeed8; }
+
+  /* ==================== 히어로 대시보드 ==================== */
+  .hero-card{
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:24px 22px;
+    border-radius:24px;
+    background:var(--grad);
+    color:#fff;
+    box-shadow:0 22px 40px -24px rgba(255,90,60,.75);
+  }
+  .hero-main{ flex:1 1 auto; min-width:0; }
+  .hero-kicker{
+    margin:0 0 6px;
+    font-size:13px;
+    font-weight:600;
+    opacity:.92;
+  }
+  .hero-title{
+    margin:0 0 18px;
+    font-size:clamp(19px,5vw,23px);
+    line-height:1.38;
+    font-weight:800;
+    letter-spacing:-.015em;
+    word-break:keep-all;
+  }
+  .hero-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:13px 20px;
+    border:0;
+    border-radius:999px;
+    background:#fff;
+    color:var(--accent-deep);
+    font-family:inherit;
+    font-size:15px;
+    font-weight:800;
+    letter-spacing:-.01em;
+    cursor:pointer;
+    touch-action:manipulation;
+    -webkit-user-select:none;
+    user-select:none;
+    box-shadow:0 10px 20px -12px rgba(80,30,10,.55);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .hero-cta:hover{ transform:translateY(-1px); }
+  .hero-cta:active{ transform:translateY(1px); }
+
+  .ring{
+    flex:0 0 auto;
+    width:96px; height:96px;
+    position:relative;
+    display:grid; place-items:center;
+  }
+  .ring svg{ position:absolute; inset:0; transform:rotate(-90deg); }
+  .ring-track{ stroke:rgba(255,255,255,.32); }
+  .ring-fill{
+    stroke:#fff;
+    stroke-linecap:round;
+    transition:stroke-dashoffset .5s ease;
+  }
+  .ring-label{
+    position:relative;
+    text-align:center;
+    line-height:1.15;
+  }
+  .ring-num{
+    display:block;
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-.02em;
+  }
+  .ring-sub{
+    display:block;
+    font-size:10.5px;
+    font-weight:700;
+    opacity:.85;
   }
 
-  .stats{
-    list-style:none;
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:0;
-    margin:18px 0 0;
-    padding:14px 0 0;
-    border-top:1px solid var(--line-soft);
+  /* ==================== 3칸 요약 카드 ==================== */
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:16px;
   }
-  .stat{
-    display:flex;
-    align-items:baseline;
-    gap:6px;
-    padding:0 16px;
-    border-left:1px solid var(--line-soft);
+  .stat-card{
+    background:var(--panel);
+    border-radius:18px;
+    padding:16px 8px 14px;
+    text-align:center;
+    box-shadow:var(--shadow);
   }
-  .stat:first-child{ padding-left:0; border-left:0; }
-  .stat-value{
-    font-size:17px;
+  .stat-num{
+    display:block;
+    font-size:23px;
     font-weight:800;
-    color:var(--navy);
-    letter-spacing:-.01em;
+    letter-spacing:-.02em;
+    color:var(--ink);
   }
+  .stat-card:nth-child(2) .stat-num{ color:#16a34a; }
+  .stat-card:nth-child(3) .stat-num{ color:var(--accent); }
   .stat-label{
+    display:block;
+    margin-top:3px;
     font-size:12px;
     font-weight:600;
     color:var(--muted);
   }
 
-  .search{ position:relative; display:flex; align-items:center; margin-top:16px; }
-  .search-icon{
-    position:absolute;
-    left:14px; top:50%;
-    transform:translateY(-50%);
-    color:#93a1b5;
-    pointer-events:none;
-    display:block;
-  }
-  .search input{
-    width:100%;
-    height:52px;
-    padding:0 48px 0 42px;
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    background:#fbfcfe;
-    color:var(--ink);
-    font-family:inherit;
-    font-size:15.5px;
-    font-weight:500;
-    transition:border-color .18s, box-shadow .18s, background .18s;
-  }
-  .search input::placeholder{ color:#a3aec0; }
-  .search input:focus{
-    outline:none;
-    background:#fff;
-    border-color:var(--cobalt);
-    box-shadow:0 0 0 3px rgba(37,99,235,.13);
-  }
-  .search input::-webkit-search-cancel-button{ display:none; }
-  .search-clear{
-    position:absolute;
-    right:6px; top:50%;
-    transform:translateY(-50%);
-    width:40px; height:40px;
-    border:0;
-    border-radius:10px;
-    background:transparent;
-    color:var(--muted);
-    font-family:inherit;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    touch-action:manipulation;
-  }
-  .search-clear:hover{ background:var(--line-soft); color:var(--ink); }
-
-  /* ==================== 서재 : 목록 ==================== */
+  /* ==================== 빠른 실행 그리드 ==================== */
   .section-head{
     display:flex;
     align-items:baseline;
@@ -182,58 +222,225 @@
   }
   .section-title{
     margin:0;
-    font-size:13px;
+    font-size:15.5px;
     font-weight:800;
-    letter-spacing:.06em;
-    color:var(--navy);
+    letter-spacing:-.01em;
+    color:var(--ink);
   }
-  .section-count{
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--muted);
+  .section-more{
+    border:0;
+    background:none;
+    padding:2px 0;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:800;
+    color:var(--accent);
+    cursor:pointer;
+    touch-action:manipulation;
+    white-space:nowrap;
   }
+  .section-more:hover{ color:var(--accent-deep); }
 
-  .book-grid{
+  .quick-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    grid-template-columns:repeat(2,1fr);
     gap:14px;
   }
-
-  .book-card{
+  .quick-card{
     display:flex;
-    align-items:stretch;
-    gap:16px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    width:100%;
+    padding:18px 16px 16px;
+    text-align:left;
+    font-family:inherit;
+    color:inherit;
+    background:var(--panel);
+    border:0;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .quick-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lift); }
+  .quick-card:active{ transform:translateY(0); }
+  .quick-icon{
+    width:48px; height:48px;
+    border-radius:15px;
+    display:grid; place-items:center;
+    font-size:23px;
+    line-height:1;
+  }
+  .icon-sprout{ background:#fbf3d5; }
+  .icon-target{ background:#f3e8ff; }
+  .icon-book{ background:#e3efff; }
+  .icon-chart{ background:#e2f6e9; }
+  .quick-title{
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:-.01em;
+  }
+  .quick-sub{
+    margin-top:-5px;
+    font-size:12.5px;
+    font-weight:500;
+    color:var(--muted);
+    word-break:keep-all;
+  }
+
+  /* ==================== 책 카드 ==================== */
+  .recent-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+  }
+  .recent-card{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
     width:100%;
     padding:14px;
     text-align:left;
     font-family:inherit;
     color:inherit;
     background:var(--panel);
-    border:1.5px solid var(--line);
-    border-radius:16px;
+    border:0;
+    border-radius:18px;
+    box-shadow:var(--shadow);
     cursor:pointer;
     touch-action:manipulation;
-    transition:border-color .18s, box-shadow .18s, transform .18s;
+    transition:transform .15s, box-shadow .15s;
   }
-  .book-card:hover{
-    border-color:#c3d3ea;
-    box-shadow:0 8px 20px -14px rgba(15,35,64,.4);
-    transform:translateY(-2px);
+  .recent-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lift); }
+  .recent-card:disabled{ cursor:default; opacity:.7; }
+  .mini-cover{
+    width:44px; height:56px;
+    border-radius:8px;
+    display:grid; place-items:center;
+    color:#fff;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:.02em;
+    position:relative;
+    overflow:hidden;
   }
+  .mini-cover::before{
+    content:"";
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:4px;
+    background:rgba(0,0,0,.16);
+  }
+  .recent-title{
+    font-size:14px;
+    line-height:1.35;
+    font-weight:800;
+    letter-spacing:-.01em;
+    color:var(--ink);
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    word-break:break-word;
+  }
+  .recent-meta{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--muted);
+  }
+
+  /* ==================== 책장 (전체 목록) ==================== */
+  .shelf-search{ position:relative; display:flex; align-items:center; margin:2px 0 4px; }
+  .shelf-search .search-icon{
+    position:absolute;
+    left:14px; top:50%;
+    transform:translateY(-50%);
+    color:#b3a89b;
+    pointer-events:none;
+    display:block;
+  }
+  .shelf-search input{
+    width:100%;
+    height:50px;
+    padding:0 48px 0 42px;
+    border:0;
+    border-radius:16px;
+    background:var(--panel);
+    box-shadow:var(--shadow);
+    color:var(--ink);
+    font-family:inherit;
+    font-size:15px;
+    font-weight:500;
+    transition:box-shadow .18s;
+  }
+  .shelf-search input::placeholder{ color:#b3a89b; }
+  .shelf-search input:focus{
+    outline:none;
+    box-shadow:var(--shadow-lift);
+  }
+  .shelf-search input::-webkit-search-cancel-button{ display:none; }
+  .search-clear{
+    position:absolute;
+    right:6px; top:50%;
+    transform:translateY(-50%);
+    width:38px; height:38px;
+    border:0;
+    border-radius:12px;
+    background:transparent;
+    color:var(--muted);
+    font-family:inherit;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+  .search-clear:hover{ color:var(--ink); }
+
+  .book-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:13px;
+    margin-top:12px;
+  }
+  .book-card{
+    display:flex;
+    align-items:stretch;
+    gap:15px;
+    width:100%;
+    padding:14px;
+    text-align:left;
+    font-family:inherit;
+    color:inherit;
+    background:var(--panel);
+    border:0;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:box-shadow .15s, transform .15s;
+  }
+  .book-card:hover{ box-shadow:var(--shadow-lift); transform:translateY(-2px); }
   .book-card:active{ transform:translateY(0); }
   .book-card:disabled{ cursor:default; opacity:.7; }
 
   .book-cover{
     position:relative;
     flex:0 0 auto;
-    width:82px;
-    min-height:110px;
-    border-radius:10px;
+    width:76px;
+    min-height:102px;
+    border-radius:12px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:6px;
+    gap:5px;
     color:#fff;
     overflow:hidden;
   }
@@ -241,24 +448,24 @@
     content:"";
     position:absolute;
     left:0; top:0; bottom:0;
-    width:6px;
+    width:5px;
     background:rgba(0,0,0,.16);
   }
   .cover-mark{
-    font-size:26px;
+    font-size:24px;
     line-height:1;
     font-weight:800;
     letter-spacing:.02em;
   }
   .cover-no{
-    font-size:10.5px;
+    font-size:10px;
     font-weight:700;
     letter-spacing:.08em;
     opacity:.75;
   }
   .cover-check{
     position:absolute;
-    right:6px; top:6px;
+    right:5px; top:5px;
     width:20px; height:20px;
     border-radius:50%;
     display:grid; place-items:center;
@@ -281,17 +488,17 @@
     font-weight:700;
     letter-spacing:.07em;
     text-transform:uppercase;
-    color:#8494aa;
+    color:#a89d8f;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
   }
   .book-title{
-    font-size:16.5px;
+    font-size:16px;
     line-height:1.3;
     font-weight:800;
     letter-spacing:-.015em;
-    color:var(--navy);
+    color:var(--ink);
     display:-webkit-box;
     -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
@@ -303,11 +510,11 @@
     color:var(--muted);
   }
   .book-blurb{
-    margin-top:4px;
+    margin-top:3px;
     font-size:12.5px;
     line-height:1.5;
     font-weight:500;
-    color:#7a8899;
+    color:#958a7c;
     word-break:keep-all;
     overflow:hidden;
     display:-webkit-box;
@@ -316,7 +523,7 @@
   }
   .book-status{
     margin-top:auto;
-    padding-top:10px;
+    padding-top:9px;
     display:flex;
     align-items:center;
     gap:8px;
@@ -326,14 +533,14 @@
     display:inline-flex;
     align-items:center;
     padding:4px 9px;
-    border-radius:6px;
+    border-radius:999px;
     font-size:11.5px;
     font-weight:700;
     white-space:nowrap;
   }
-  .chip-new{ background:#f1f4f9; color:#75859b; }
-  .chip-done{ background:var(--cobalt-soft); color:var(--cobalt-deep); }
-  .chip-perfect{ background:var(--emerald-soft); color:#047857; }
+  .chip-new{ background:#f4efe8; color:#8d8377; }
+  .chip-done{ background:#fdeedd; color:#c2410c; }
+  .chip-perfect{ background:#e2f6e9; color:#047857; }
   .stars-mini{
     font-size:12px;
     letter-spacing:1px;
@@ -344,21 +551,21 @@
     font-size:16px;
     line-height:1;
     font-weight:700;
-    color:var(--cobalt);
+    color:var(--accent);
   }
 
   .empty{
     text-align:center;
-    padding:44px 22px;
+    padding:42px 22px;
     background:var(--panel);
-    border:1.5px dashed var(--line);
-    border-radius:16px;
+    border-radius:20px;
+    box-shadow:var(--shadow);
   }
   .empty-title{
     margin:0 0 6px;
     font-size:16px;
     font-weight:800;
-    color:var(--navy);
+    color:var(--ink);
   }
   .empty-text{
     margin:0;
@@ -370,13 +577,57 @@
   }
 
   .foot{
-    margin:28px 0 0;
+    margin:26px 0 8px;
     text-align:center;
     font-size:11.5px;
     line-height:1.9;
     font-weight:500;
-    color:#9aa7ba;
+    color:#b3a89b;
     word-break:keep-all;
+  }
+
+  /* ==================== 기록 화면 ==================== */
+  .record-list{ display:flex; flex-direction:column; gap:12px; }
+  .record-item{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:15px 16px;
+    background:var(--panel);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+  }
+  .record-body{ flex:1 1 auto; min-width:0; }
+  .record-title{
+    margin:0;
+    font-size:15px;
+    font-weight:800;
+    letter-spacing:-.01em;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .record-meta{
+    margin:3px 0 0;
+    font-size:12px;
+    font-weight:600;
+    color:var(--muted);
+  }
+  .record-side{
+    flex:0 0 auto;
+    text-align:right;
+  }
+  .record-score{
+    font-size:17px;
+    font-weight:800;
+    color:var(--accent);
+    white-space:nowrap;
+  }
+  .record-stars{
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--amber);
   }
 
   /* ==================== 버튼 ==================== */
@@ -384,11 +635,11 @@
     display:block;
     width:100%;
     border:0;
-    border-radius:12px;
+    border-radius:16px;
     padding:16px 20px;
     min-height:56px;
     font-family:inherit;
-    font-size:16.5px;
+    font-size:16px;
     font-weight:800;
     letter-spacing:-.01em;
     cursor:pointer;
@@ -401,32 +652,31 @@
   .btn:active{ transform:translateY(1px); }
   .btn-primary{
     color:#fff;
-    background:var(--cobalt);
-    box-shadow:0 10px 22px -14px rgba(37,99,235,.7);
+    background:var(--accent);
+    box-shadow:0 12px 24px -14px rgba(255,90,60,.8);
   }
-  .btn-primary:hover{ background:var(--cobalt-deep); }
+  .btn-primary:hover{ background:var(--accent-deep); }
   .btn-next{
     margin-top:14px;
     color:#fff;
-    background:var(--navy);
+    background:#3d3十二;
+    background:#3d2f24;
   }
-  .btn-next:hover{ background:#16304f; }
+  .btn-next:hover{ background:#554233; }
   .btn-ghost{
     margin-top:10px;
-    color:var(--navy);
+    color:var(--ink);
     background:#fff;
-    border:1.5px solid var(--line);
+    box-shadow:var(--shadow);
   }
-  .btn-ghost:hover{ border-color:#c3d3ea; background:#fbfcfe; }
+  .btn-ghost:hover{ box-shadow:var(--shadow-lift); }
 
   /* ==================== 퀴즈 ==================== */
   .panel{
-    max-width:760px;
-    margin:0 auto;
     background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:22px;
+    border-radius:22px;
+    padding:20px;
+    box-shadow:var(--shadow);
   }
   #screen-result .btn{
     max-width:420px;
@@ -444,10 +694,10 @@
     flex:0 0 auto;
     padding:8px 13px;
     min-height:38px;
-    border:1.5px solid var(--line);
-    border-radius:9px;
-    background:#fff;
-    color:var(--navy);
+    border:0;
+    border-radius:999px;
+    background:#f4efe8;
+    color:var(--ink);
     font-family:inherit;
     font-size:12.5px;
     font-weight:700;
@@ -455,7 +705,7 @@
     touch-action:manipulation;
     white-space:nowrap;
   }
-  .pill-btn:hover{ background:#f7f9fd; border-color:#c3d3ea; }
+  .pill-btn:hover{ background:#ece5da; }
   .quiz-book{
     flex:1 1 auto;
     min-width:0;
@@ -472,7 +722,7 @@
     flex:0 0 auto;
     font-size:13px;
     font-weight:700;
-    color:var(--cobalt);
+    color:var(--accent);
     white-space:nowrap;
   }
   .counter b{ font-size:15px; }
@@ -480,14 +730,14 @@
   .bar{
     height:8px;
     border-radius:999px;
-    background:#e9eef6;
+    background:#f4efe8;
     overflow:hidden;
   }
   .bar-fill{
     height:100%;
     width:0;
     border-radius:999px;
-    background:var(--cobalt);
+    background:var(--accent);
     transition:width .3s ease;
   }
 
@@ -503,15 +753,15 @@
     font-weight:800;
     letter-spacing:.08em;
     text-transform:uppercase;
-    color:var(--cobalt-deep);
-    background:var(--cobalt-soft);
-    border-radius:6px;
-    padding:4px 9px;
+    color:var(--accent-deep);
+    background:#fdeedd;
+    border-radius:999px;
+    padding:5px 11px;
   }
   .q-note{
     font-size:12px;
     font-weight:600;
-    color:#93a1b5;
+    color:#b3a89b;
   }
 
   .qtext{
@@ -520,7 +770,7 @@
     line-height:1.45;
     font-weight:700;
     letter-spacing:-.01em;
-    color:var(--navy);
+    color:var(--ink);
     word-break:break-word;
   }
   @media (min-width:520px){
@@ -542,8 +792,8 @@
     padding:12px 14px;
     text-align:left;
     background:#fff;
-    border:1.5px solid var(--line);
-    border-radius:12px;
+    border:2px solid #f0eae2;
+    border-radius:16px;
     font-family:inherit;
     font-size:16px;
     line-height:1.4;
@@ -556,15 +806,15 @@
     -webkit-touch-callout:none;
     transition:border-color .16s, background .16s, opacity .16s;
   }
-  .option:hover{ border-color:#b9cbe6; background:#fbfcfe; }
-  .option:active{ background:#f4f8ff; }
+  .option:hover{ border-color:#ffd0ba; background:#fffaf7; }
+  .option:active{ background:#fff3ec; }
   .option .badge{
     flex:0 0 auto;
     width:30px; height:30px;
-    border-radius:8px;
+    border-radius:10px;
     display:grid; place-items:center;
-    background:#eef3fb;
-    color:var(--cobalt-deep);
+    background:#fdeedd;
+    color:var(--accent-deep);
     font-size:13.5px;
     font-weight:800;
   }
@@ -576,13 +826,13 @@
     font-weight:700;
   }
   .option.is-correct{
-    background:var(--emerald-soft);
+    background:#f0fdf5;
     border-color:var(--emerald);
   }
   .option.is-correct .badge{ background:var(--emerald); color:#fff; }
   .option.is-correct .mark{ color:#047857; }
   .option.is-wrong{
-    background:var(--red-soft);
+    background:#fef2f2;
     border-color:var(--red);
   }
   .option.is-wrong .badge{ background:var(--red); color:#fff; }
@@ -595,14 +845,14 @@
   .feedback{
     margin-top:16px;
     padding:15px 16px;
-    border-radius:12px;
+    border-radius:16px;
     border-left:4px solid var(--emerald);
-    background:#f7fdfa;
+    background:#f0fdf5;
     animation:fade .22s ease both;
   }
   .feedback.bad{
-    border-left-color:var(--orange);
-    background:#fffaf5;
+    border-left-color:var(--accent);
+    background:#fff7f1;
   }
   .fb-head{
     margin:0 0 6px;
@@ -616,7 +866,7 @@
     font-size:15px;
     line-height:1.6;
     font-weight:500;
-    color:#3b4757;
+    color:#4a4033;
   }
   .ko-toggle{
     display:inline-flex;
@@ -624,28 +874,27 @@
     margin-top:10px;
     padding:8px 13px;
     min-height:40px;
-    border-radius:8px;
-    border:1.5px solid #d6e2f2;
-    background:#fff;
-    color:var(--cobalt-deep);
+    border-radius:999px;
+    border:0;
+    background:#fdeedd;
+    color:var(--accent-deep);
     font-family:inherit;
     font-size:13px;
     font-weight:700;
     cursor:pointer;
     touch-action:manipulation;
   }
-  .ko-toggle:hover{ background:#f5f9ff; }
+  .ko-toggle:hover{ background:#fbe3cf; }
   .ko-text{
     display:none;
     margin:10px 0 0;
     padding:12px 13px;
-    border-radius:8px;
+    border-radius:12px;
     background:#fff;
-    border:1px solid var(--line-soft);
     font-size:14px;
     line-height:1.75;
     font-weight:500;
-    color:#3b4757;
+    color:#4a4033;
     word-break:keep-all;
   }
   .ko-text.show{ display:block; }
@@ -658,14 +907,14 @@
     font-weight:600;
     letter-spacing:.05em;
     text-transform:uppercase;
-    color:#93a1b5;
+    color:#b3a89b;
   }
   .result-title{
     margin:8px 0 0;
     font-size:clamp(22px,5.4vw,28px);
     font-weight:800;
     letter-spacing:-.02em;
-    color:var(--navy);
+    color:var(--ink);
   }
 
   .score-line{
@@ -677,12 +926,12 @@
     line-height:1;
     font-weight:800;
     letter-spacing:-.03em;
-    color:var(--navy);
+    color:var(--ink);
   }
   .score-den{
     font-size:20px;
     font-weight:700;
-    color:#9aa7ba;
+    color:#b3a89b;
     margin-left:4px;
   }
   .stars{
@@ -696,10 +945,10 @@
     margin:12px auto 0;
     width:max-content;
     max-width:100%;
-    padding:6px 12px;
-    border-radius:6px;
-    background:var(--cobalt-soft);
-    color:var(--cobalt-deep);
+    padding:6px 13px;
+    border-radius:999px;
+    background:#fdeedd;
+    color:var(--accent-deep);
     font-size:12px;
     font-weight:700;
   }
@@ -710,7 +959,7 @@
     font-size:15.5px;
     line-height:1.6;
     font-weight:600;
-    color:#2c3a4d;
+    color:#4a4033;
   }
   .result-ko{
     margin:8px auto 0;
@@ -731,21 +980,21 @@
   }
   .dot{
     width:28px; height:28px;
-    border-radius:7px;
+    border-radius:9px;
     display:grid; place-items:center;
     font-size:11.5px;
     font-weight:800;
     color:#fff;
     background:var(--emerald);
   }
-  .dot.bad{ background:var(--orange); }
+  .dot.bad{ background:var(--accent); }
   #btn-review{
     margin-top:22px;
     color:#fff;
-    background:var(--orange);
-    box-shadow:0 10px 22px -14px rgba(249,115,22,.7);
+    background:var(--accent);
+    box-shadow:0 12px 24px -14px rgba(255,90,60,.8);
   }
-  #btn-review:hover{ background:#ea6a0a; }
+  #btn-review:hover{ background:var(--accent-deep); }
 
   /* ==================== 오답 다시보기 ==================== */
   .review-head{ margin:0 0 3px; }
@@ -754,7 +1003,7 @@
     font-size:20px;
     font-weight:800;
     letter-spacing:-.01em;
-    color:var(--navy);
+    color:var(--ink);
   }
   .review-sub{
     margin:5px 0 16px;
@@ -765,31 +1014,31 @@
   .rev-item{
     margin-bottom:12px;
     padding:16px;
-    border:1px solid var(--line);
-    border-left:4px solid var(--orange);
-    border-radius:12px;
+    border-radius:16px;
     background:#fff;
+    box-shadow:var(--shadow);
+    border-left:4px solid var(--accent);
   }
   .rev-note{
     margin:0 0 4px;
     font-size:11.5px;
     font-weight:700;
     letter-spacing:.04em;
-    color:#9aa7ba;
+    color:#b3a89b;
   }
   .rev-q{
     margin:0 0 10px;
     font-size:15.5px;
     line-height:1.45;
     font-weight:700;
-    color:var(--navy);
+    color:var(--ink);
   }
   .rev-line{
     margin:0 0 4px;
     font-size:14px;
     line-height:1.5;
     font-weight:500;
-    color:#54637a;
+    color:#6b5f51;
   }
   .rev-line b{ font-weight:700; }
   .rev-line.yours b{ color:var(--red); }
@@ -799,47 +1048,75 @@
     font-size:14px;
     line-height:1.65;
     font-weight:500;
-    color:#3b4757;
+    color:#4a4033;
   }
   .rev-ko{
     margin:8px 0 0;
     padding-top:9px;
-    border-top:1px solid var(--line-soft);
+    border-top:1px solid var(--line);
     font-size:13.5px;
     line-height:1.75;
     font-weight:500;
-    color:#54637a;
+    color:#6b5f51;
     word-break:keep-all;
   }
   .perfect{
     text-align:center;
     padding:24px 14px;
-    border-radius:12px;
-    background:var(--emerald-soft);
-    border:1px solid #bbf7d0;
+    border-radius:16px;
+    background:#f0fdf5;
     font-size:14.5px;
     font-weight:600;
     line-height:1.7;
     color:#047857;
   }
 
+  /* ==================== 하단 탭 바 ==================== */
+  .tabbar{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    background:rgba(255,255,255,.96);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .tabbar-in{
+    display:flex;
+    width:100%;
+    max-width:560px;
+  }
+  .tab-btn{
+    flex:1 1 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    padding:10px 0 12px;
+    background:none;
+    border:0;
+    font-family:inherit;
+    font-size:11.5px;
+    font-weight:700;
+    color:#b9afa3;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+  .tab-btn.is-active{ color:var(--accent); }
+  .tab-emoji{ font-size:22px; line-height:1; }
+
   /* ==================== 작은 화면 ==================== */
-  @media (max-width:640px){
-    body{ padding:14px 12px 40px; }
-    .hero{ padding:18px 16px 16px; border-radius:14px; }
-    .panel{ padding:16px; border-radius:14px; }
-    .brand-mark{ width:40px; height:40px; border-radius:10px; }
-    .stat{ padding:0 11px; }
-    .stat-value{ font-size:15px; }
-    .stat-label{ font-size:11px; }
-    .book-grid{ grid-template-columns:1fr; gap:11px; }
-    .book-card{ padding:12px; gap:13px; border-radius:14px; }
-    .book-cover{ width:72px; min-height:100px; }
-    .cover-mark{ font-size:23px; }
-    .book-title{ font-size:15.5px; }
-    .qtext{ font-size:18.5px; }
-    .option{ font-size:15.5px; }
-    .score-num{ font-size:48px; }
+  @media (max-width:420px){
+    .app{ padding:14px 14px 0; }
+    .topbar h1{ font-size:19px; }
+    .badge-pill{ padding:7px 10px; font-size:12px; }
+    .hero-card{ padding:20px 18px; border-radius:22px; }
+    .ring{ width:84px; height:84px; }
+    .quick-grid{ gap:11px; }
+    .quick-card{ padding:15px 14px 14px; }
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -853,49 +1130,121 @@
 <body>
 <div class="app">
 <noscript>
-  <p style="margin:0 0 16px;padding:16px;border-radius:12px;background:#fff4ea;border:1px solid #fed7aa;font:600 14px/1.6 system-ui,sans-serif;color:#9a3412;text-align:center;">
+  <p style="margin:0 0 16px;padding:16px;border-radius:16px;background:#fff1dc;font:600 14px/1.6 system-ui,sans-serif;color:#9a3412;text-align:center;">
     퀴즈를 풀려면 브라우저에서 자바스크립트를 켜 주세요.<br>
     Please turn on JavaScript in your browser to play the quiz.
   </p>
 </noscript>
 
-  <!-- ==================== 1. 서재 ==================== -->
-  <section id="screen-library" class="screen is-active" aria-labelledby="library-title">
-    <header class="hero">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 5.2A2.2 2.2 0 0 1 6.2 3H19v15.5H6.2A2.2 2.2 0 0 0 4 20.7z"></path>
-            <path d="M4 18.5a2.2 2.2 0 0 1 2.2-2.2H19"></path>
-            <path d="M8.5 7h6"></path>
-          </svg>
-        </span>
-        <div class="brand-text">
-          <h1 id="library-title">북퀴즈 서재</h1>
-          <p class="brand-sub">Book Quiz Hub · 읽은 책을 퀴즈로 확인해요</p>
-        </div>
-      </div>
-
-      <ul class="stats" id="stats">
-        <li class="stat"><span class="stat-value">0권</span><span class="stat-label">등록된 책</span></li>
-      </ul>
-
-      <div class="search">
-        <span class="search-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="m20 20-3.2-3.2"></path>
-          </svg>
-        </span>
-        <label class="sr-only" for="search-input">책 제목 검색</label>
-        <input id="search-input" type="search" placeholder="책 제목을 검색" autocomplete="off" spellcheck="false" enterkeyhint="search">
-        <button id="search-clear" class="search-clear" type="button" aria-label="검색어 지우기" hidden>✕</button>
+  <!-- ==================== 1. 홈 ==================== -->
+  <section id="screen-home" class="screen is-active" aria-labelledby="home-title">
+    <header class="topbar">
+      <span class="brand-mark" aria-hidden="true">📖</span>
+      <h1 id="home-title">북퀴즈 서재</h1>
+      <div class="badges">
+        <span class="badge-pill" id="streak-badge" hidden>🔥 <span id="streak-days">0</span>일차</span>
+        <span class="badge-pill stars">⭐ <span id="star-count">0</span>개</span>
       </div>
     </header>
 
+    <div class="hero-card">
+      <div class="hero-main">
+        <p class="hero-kicker">북퀴즈 성장 대시보드</p>
+        <p class="hero-title" id="hero-title">오늘 풀 퀴즈가 준비되어 있어요!</p>
+        <button class="hero-cta" id="btn-hero-start" type="button">▶ 퀴즈 시작하기</button>
+      </div>
+      <div class="ring" role="img" aria-label="달성률">
+        <svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true">
+          <circle class="ring-track" cx="48" cy="48" r="40" fill="none" stroke-width="9"></circle>
+          <circle class="ring-fill" id="ring-fill" cx="48" cy="48" r="40" fill="none" stroke-width="9"
+                  stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+        </svg>
+        <span class="ring-label">
+          <span class="ring-num" id="ring-num">0%</span>
+          <span class="ring-sub">달성</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-num" id="stat-books">0</span>
+        <span class="stat-label">등록된 책</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-done">0</span>
+        <span class="stat-label">완료한 책</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-stars">0</span>
+        <span class="stat-label">모은 별</span>
+      </div>
+    </div>
+
     <div class="section-head">
-      <p class="section-title" id="shelf-label">우리 서재</p>
-      <p class="section-count" id="shelf-count"></p>
+      <p class="section-title">빠른 실행</p>
+    </div>
+    <div class="quick-grid">
+      <button class="quick-card" id="qa-review" type="button">
+        <span class="quick-icon icon-sprout" aria-hidden="true">🌱</span>
+        <span class="quick-title">복습할 문제</span>
+        <span class="quick-sub">아쉬웠던 책 다시 풀기</span>
+      </button>
+      <button class="quick-card" id="qa-quick" type="button">
+        <span class="quick-icon icon-target" aria-hidden="true">🎯</span>
+        <span class="quick-title">바로 퀴즈</span>
+        <span class="quick-sub">추천 책 1권 바로 시작</span>
+      </button>
+      <button class="quick-card" id="qa-shelf" type="button">
+        <span class="quick-icon icon-book" aria-hidden="true">📚</span>
+        <span class="quick-title">전체 책장</span>
+        <span class="quick-sub">모든 책 보기 · 검색</span>
+      </button>
+      <button class="quick-card" id="qa-records" type="button">
+        <span class="quick-icon icon-chart" aria-hidden="true">📊</span>
+        <span class="quick-title">학습 기록</span>
+        <span class="quick-sub">점수와 모은 별 확인</span>
+      </button>
+    </div>
+
+    <div class="section-head">
+      <p class="section-title">최근 추가된 책</p>
+      <button class="section-more" id="btn-more-shelf" type="button">전체 보기 →</button>
+    </div>
+    <div class="recent-row" id="recent-row"></div>
+
+    <footer class="foot">
+      책을 한 권 읽고 퀴즈로 확인해 보세요.<br>
+      새 책은 books.js에 책 하나만 추가하면 서재에 자동으로 나타납니다.
+    </footer>
+  </section>
+
+  <!-- ==================== 2. 책장 ==================== -->
+  <section id="screen-shelf" class="screen" aria-labelledby="shelf-title">
+    <header class="topbar">
+      <span class="brand-mark" aria-hidden="true">📖</span>
+      <h1 id="shelf-title">북퀴즈 서재</h1>
+      <div class="badges">
+        <span class="badge-pill" id="streak-badge-shelf" hidden>🔥 <span id="streak-days-shelf">0</span>일차</span>
+        <span class="badge-pill stars">⭐ <span id="star-count-shelf">0</span>개</span>
+      </div>
+    </header>
+
+    <div class="shelf-search">
+      <span class="search-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.2-3.2"></path>
+        </svg>
+      </span>
+      <label class="sr-only" for="search-input">책 제목 검색</label>
+      <input id="search-input" type="search" placeholder="책 제목을 검색" autocomplete="off" spellcheck="false" enterkeyhint="search">
+      <button id="search-clear" class="search-clear" type="button" aria-label="검색어 지우기" hidden>✕</button>
+    </div>
+
+    <div class="section-head" style="margin-top:10px;">
+      <p class="section-title" id="shelf-label">전체 책장</p>
+      <p class="section-count" id="shelf-count" style="font-size:12.5px;font-weight:600;color:var(--muted);margin:0;"></p>
     </div>
 
     <div id="book-grid" class="book-grid"></div>
@@ -904,18 +1253,36 @@
       <p class="empty-title">앗, 그런 책은 아직 없어요</p>
       <p class="empty-text">다른 제목으로 찾아보거나, 서재에 새 책을 넣어 보세요.</p>
     </div>
-
-    <footer class="foot">
-      책을 한 권 읽고 퀴즈로 확인해 보세요.<br>
-      새 책은 books.js에 책 하나만 추가하면 서재에 자동으로 나타납니다.
-    </footer>
   </section>
 
-  <!-- ==================== 2. 퀴즈 ==================== -->
+  <!-- ==================== 3. 기록 ==================== -->
+  <section id="screen-records" class="screen" aria-labelledby="records-title">
+    <header class="topbar">
+      <span class="brand-mark" aria-hidden="true">📖</span>
+      <h1 id="records-title">북퀴즈 서재</h1>
+      <div class="badges">
+        <span class="badge-pill" id="streak-badge-records" hidden>🔥 <span id="streak-days-records">0</span>일차</span>
+        <span class="badge-pill stars">⭐ <span id="star-count-records">0</span>개</span>
+      </div>
+    </header>
+
+    <div class="section-head" style="margin-top:4px;">
+      <p class="section-title">학습 기록</p>
+    </div>
+
+    <div class="record-list" id="record-list"></div>
+
+    <div id="record-empty" class="empty" hidden>
+      <p class="empty-title">아직 기록이 없어요</p>
+      <p class="empty-text">퀴즈를 한 번 풀면 점수와 별이 여기에 모입니다.</p>
+    </div>
+  </section>
+
+  <!-- ==================== 4. 퀴즈 ==================== -->
   <section id="screen-quiz" class="screen" aria-labelledby="q-text">
     <div class="panel">
       <div class="quiz-top">
-        <button id="btn-quit" class="pill-btn" type="button">← 서재</button>
+        <button id="btn-quit" class="pill-btn" type="button">← 홈</button>
         <p class="quiz-book" id="quiz-book"></p>
         <div class="counter"><b id="q-now">1</b> / <span id="q-total">10</span></div>
       </div>
@@ -936,7 +1303,7 @@
     </div>
   </section>
 
-  <!-- ==================== 3. 결과 ==================== -->
+  <!-- ==================== 5. 결과 ==================== -->
   <section id="screen-result" class="screen">
     <div class="panel">
       <div class="result-head">
@@ -953,11 +1320,11 @@
 
       <button class="btn" id="btn-review" type="button">틀린 문제 다시 보기</button>
       <button class="btn btn-next" id="btn-retry" type="button">다시 풀기</button>
-      <button class="btn btn-ghost" id="btn-home" type="button">서재로 돌아가기</button>
+      <button class="btn btn-ghost" id="btn-home" type="button">홈으로 돌아가기</button>
     </div>
   </section>
 
-  <!-- ==================== 4. 오답 다시보기 ==================== -->
+  <!-- ==================== 6. 오답 다시보기 ==================== -->
   <section id="screen-review" class="screen">
     <div class="panel">
       <div class="review-head">
@@ -967,10 +1334,20 @@
       <div id="review-list"></div>
 
       <button class="btn btn-next" id="btn-back-result" type="button">결과로 돌아가기</button>
-      <button class="btn btn-ghost" id="btn-home2" type="button">서재로 돌아가기</button>
+      <button class="btn btn-ghost" id="btn-home2" type="button">홈으로 돌아가기</button>
     </div>
   </section>
 </div>
+
+<!-- ==================== 하단 탭 바 ==================== -->
+<nav class="tabbar" aria-label="주요 화면">
+  <div class="tabbar-in">
+    <button class="tab-btn is-active" data-tab="home" type="button"><span class="tab-emoji" aria-hidden="true">🏠</span>홈</button>
+    <button class="tab-btn" data-tab="shelf" type="button"><span class="tab-emoji" aria-hidden="true">📚</span>책장</button>
+    <button class="tab-btn" data-tab="quiz" type="button"><span class="tab-emoji" aria-hidden="true">🎯</span>퀴즈</button>
+    <button class="tab-btn" data-tab="records" type="button"><span class="tab-emoji" aria-hidden="true">📊</span>기록</button>
+  </div>
+</nav>
 
 <script src="books.js"></script>
 <script>
@@ -980,7 +1357,8 @@
   var BOOKS = (window.BOOKS && Array.isArray(window.BOOKS)) ? window.BOOKS : [];
   var STORAGE_KEY = "bookQuizHub.v1";
   var LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  var SCREEN_NAMES = ["library", "quiz", "result", "review"];
+  var SCREEN_NAMES = ["home", "shelf", "records", "quiz", "result", "review"];
+  var TAB_SCREENS = { home: "home", shelf: "shelf", records: "records" };
 
   function $(id) { return document.getElementById(id); }
 
@@ -1015,9 +1393,9 @@
 
   /* ---------------------------------------------------------------
      진행 기록 저장 (localStorage)
-     { v:1, books:{ [id]:{best, total, attempts, lastPlayed, lastScore} } }
+     { v:1, books:{ [id]:{best,total,attempts,lastPlayed,lastScore} }, days:["YYYY-MM-DD"] }
      --------------------------------------------------------------- */
-  function emptyProgress() { return { v: 1, books: {} }; }
+  function emptyProgress() { return { v: 1, books: {}, days: [] }; }
 
   function readProgress() {
     try {
@@ -1027,6 +1405,7 @@
       if (!data || typeof data !== "object" || !data.books || typeof data.books !== "object") {
         return emptyProgress();
       }
+      if (!Array.isArray(data.days)) { data.days = []; }
       return data;
     } catch (err) {
       return emptyProgress();
@@ -1041,6 +1420,47 @@
     } catch (err) {
       /* 저장 공간이 없는 브라우저(시크릿 모드 등)에서는 조용히 넘어갑니다. */
     }
+  }
+
+  function todayStr() {
+    var d = new Date();
+    var m = String(d.getMonth() + 1);
+    if (m.length < 2) { m = "0" + m; }
+    var day = String(d.getDate());
+    if (day.length < 2) { day = "0" + day; }
+    return d.getFullYear() + "-" + m + "-" + day;
+  }
+
+  function markPracticeDay() {
+    var today = todayStr();
+    if (progress.days.indexOf(today) === -1) {
+      progress.days.push(today);
+      progress.days.sort();
+      writeProgress();
+    }
+  }
+
+  /* 오늘(혹은 어제)부터 연속으로 기록된 학습 일수 */
+  function streakCount() {
+    var days = progress.days || [];
+    if (!days.length) { return 0; }
+    var DAY_MS = 24 * 60 * 60 * 1000;
+    var d = new Date();
+    var key = function (date) {
+      var m = String(date.getMonth() + 1);
+      if (m.length < 2) { m = "0" + m; }
+      var day = String(date.getDate());
+      if (day.length < 2) { day = "0" + day; }
+      return date.getFullYear() + "-" + m + "-" + day;
+    };
+    /* 오늘 기록이 없으면 어제부터 이어지는 연속 기록을 인정합니다. */
+    if (days.indexOf(key(d)) === -1) { d = new Date(d.getTime() - DAY_MS); }
+    var streak = 0;
+    while (days.indexOf(key(d)) !== -1) {
+      streak += 1;
+      d = new Date(d.getTime() - DAY_MS);
+    }
+    return streak;
   }
 
   function recordOf(bookId) {
@@ -1066,6 +1486,7 @@
       lastScore: score,
       lastPlayed: new Date().toISOString()
     };
+    markPracticeDay();
     writeProgress();
 
     return {
@@ -1092,6 +1513,20 @@
     return out;
   }
 
+  /* 누적 통계 (전체 책 기준) */
+  function totals() {
+    var played = 0, perfect = 0, stars = 0;
+    BOOKS.forEach(function (book) {
+      var rec = recordOf(book.id);
+      if (!rec) { return; }
+      var total = (book.questions && book.questions.length) ? book.questions.length : 0;
+      played += 1;
+      stars += starsFor(rec.best, rec.total || total);
+      if (total > 0 && rec.best === total) { perfect += 1; }
+    });
+    return { played: played, perfect: perfect, stars: stars };
+  }
+
   /* ---------------------------------------------------------------
      화면 전환
      --------------------------------------------------------------- */
@@ -1099,6 +1534,11 @@
     SCREEN_NAMES.forEach(function (key) {
       var node = $("screen-" + key);
       if (node) { node.classList.toggle("is-active", key === name); }
+    });
+    document.body.classList.toggle("no-nav", TAB_SCREENS[name] === undefined);
+    var activeTab = TAB_SCREENS[name];
+    Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-tab") === activeTab);
     });
     scrollTop();
   }
@@ -1112,7 +1552,141 @@
   }
 
   /* ---------------------------------------------------------------
-     서재 렌더링
+     공통 렌더링 : 배지 · 홈
+     --------------------------------------------------------------- */
+  function renderBadges() {
+    var t = totals();
+    var streak = streakCount();
+
+    [["streak-badge", "streak-days"], ["streak-badge-shelf", "streak-days-shelf"], ["streak-badge-records", "streak-days-records"]]
+      .forEach(function (pair) {
+        var badge = $(pair[0]);
+        if (badge) { badge.hidden = streak === 0; }
+        setText(pair[1], String(streak));
+      });
+
+    ["star-count", "star-count-shelf", "star-count-records"].forEach(function (id) {
+      setText(id, String(t.stars));
+    });
+  }
+
+  /* 바로 시작할 책 추천 : 아직 안 푼 첫 책 → 최근에 푼 책 → 첫 책 */
+  function recommendedBook() {
+    var playable = BOOKS.filter(function (b) { return b.questions && b.questions.length; });
+    if (!playable.length) { return null; }
+    var untouched = playable.filter(function (b) { return !recordOf(b.id); });
+    if (untouched.length) { return untouched[0]; }
+    var latest = null, latestTime = "";
+    playable.forEach(function (b) {
+      var rec = recordOf(b.id);
+      var stamp = (rec && rec.lastPlayed) ? rec.lastPlayed : "";
+      if (stamp > latestTime) { latestTime = stamp; latest = b; }
+    });
+    return latest || playable[0];
+  }
+
+  /* 마지막에 아쉬웠던 책 : 최근에 풀었으나 만점이 아닌 책 */
+  function reviewBook() {
+    var candidates = BOOKS.filter(function (b) {
+      var rec = recordOf(b.id);
+      if (!rec) { return false; }
+      var total = (b.questions && b.questions.length) ? b.questions.length : 0;
+      return total > 0 && rec.best < total;
+    });
+    var latest = null, latestTime = "";
+    candidates.forEach(function (b) {
+      var rec = recordOf(b.id);
+      var stamp = (rec && rec.lastPlayed) ? rec.lastPlayed : "";
+      if (stamp > latestTime) { latestTime = stamp; latest = b; }
+    });
+    return latest;
+  }
+
+  function renderHome() {
+    renderBadges();
+
+    var t = totals();
+    var totalBooks = BOOKS.length;
+    var remaining = 0;
+    BOOKS.forEach(function (b) {
+      if (b.questions && b.questions.length && !recordOf(b.id)) { remaining += 1; }
+    });
+
+    setText("stat-books", String(totalBooks));
+    setText("stat-done", String(t.played));
+    setText("stat-stars", String(t.stars));
+
+    var percent = totalBooks > 0 ? Math.round((t.played / totalBooks) * 100) : 0;
+    setText("ring-num", percent + "%");
+    var ringFill = $("ring-fill");
+    if (ringFill) {
+      var C = 251.2;
+      ringFill.style.strokeDashoffset = String(C * (1 - percent / 100));
+    }
+
+    var heroTitle = $("hero-title");
+    if (heroTitle) {
+      if (totalBooks === 0) {
+        heroTitle.textContent = "books.js에 책을 추가하면 퀴즈가 생겨요!";
+      } else if (remaining === 0) {
+        heroTitle.textContent = "모든 책의 퀴즈를 완료했어요! 정말 대단해요! 🎉";
+      } else {
+        heroTitle.textContent = "오늘 풀 퀴즈가 " + remaining + "권 남아 있어요!";
+      }
+    }
+
+    /* 최근 추가된 책 (books.js 뒤쪽에 추가한 순서 기준, 최대 3권) */
+    var row = $("recent-row");
+    if (row) {
+      row.innerHTML = "";
+      BOOKS.slice(-3).reverse().forEach(function (book) {
+        row.appendChild(recentCard(book));
+      });
+    }
+  }
+
+  function recentCard(book) {
+    var total = (book.questions && book.questions.length) ? book.questions.length : 0;
+    var rec = recordOf(book.id);
+
+    var card = document.createElement("button");
+    card.type = "button";
+    card.className = "recent-card";
+    card.setAttribute("aria-label", book.title + " 퀴즈 열기");
+    if (total === 0) { card.disabled = true; }
+
+    var cover = document.createElement("span");
+    cover.className = "mini-cover";
+    var colors = (Array.isArray(book.colors) && book.colors.length === 2)
+      ? book.colors : ["#1e3a8a", "#2563eb"];
+    cover.style.background = "linear-gradient(150deg," +
+      safeColor(colors[0], "#1e3a8a") + " 0%," +
+      safeColor(colors[1], "#2563eb") + " 100%)";
+    cover.textContent = monogram(book);
+
+    var title = document.createElement("span");
+    title.className = "recent-title";
+    title.textContent = book.title || "제목 없는 책";
+
+    var meta = document.createElement("span");
+    meta.className = "recent-meta";
+    if (total === 0) {
+      meta.textContent = "문제 준비 중";
+    } else if (rec && typeof rec.best === "number") {
+      meta.textContent = "최고 " + rec.best + "/" + total;
+    } else {
+      meta.textContent = total + "문항 · NEW";
+    }
+
+    card.appendChild(cover);
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.addEventListener("click", function () { openBook(book.id); });
+    return card;
+  }
+
+  /* ---------------------------------------------------------------
+     책장 렌더링
      --------------------------------------------------------------- */
   var searchInput = $("search-input");
   var searchClear = $("search-clear");
@@ -1245,50 +1819,9 @@
     return card;
   }
 
-  function renderStats() {
-    var stats = $("stats");
-    if (!stats) { return; }
+  function renderShelf() {
+    renderBadges();
 
-    var played = 0;
-    var perfect = 0;
-    var stars = 0;
-
-    BOOKS.forEach(function (book) {
-      var rec = recordOf(book.id);
-      if (!rec) { return; }
-      var total = (book.questions && book.questions.length) ? book.questions.length : 0;
-      played += 1;
-      stars += starsFor(rec.best, rec.total || total);
-      if (total > 0 && rec.best === total) { perfect += 1; }
-    });
-
-    var items = [
-      { value: BOOKS.length + "권", label: "등록된 책" },
-      { value: played + "권", label: "푼 책" },
-      { value: perfect + "권", label: "만점" },
-      { value: stars + "개", label: "모은 별" }
-    ];
-
-    stats.innerHTML = "";
-    items.forEach(function (item) {
-      var li = document.createElement("li");
-      li.className = "stat";
-
-      var v = document.createElement("span");
-      v.className = "stat-value";
-      v.textContent = item.value;
-
-      var l = document.createElement("span");
-      l.className = "stat-label";
-      l.textContent = item.label;
-
-      li.appendChild(v);
-      li.appendChild(l);
-      stats.appendChild(li);
-    });
-  }
-
-  function renderLibrary() {
     var query = searchInput ? searchInput.value.trim() : "";
     var list = BOOKS.filter(function (book) { return bookMatches(book, query); });
 
@@ -1311,15 +1844,86 @@
     if (searchClear) { searchClear.hidden = query.length === 0; }
 
     if (shelfLabel) {
-      shelfLabel.textContent = query ? "검색 결과" : "우리 서재";
+      shelfLabel.textContent = query ? "검색 결과" : "전체 책장";
     }
     if (shelfCount) {
       shelfCount.textContent = query
         ? "‘" + query + "’ · " + list.length + "권"
         : "전체 " + BOOKS.length + "권";
     }
+  }
 
-    renderStats();
+  /* ---------------------------------------------------------------
+     기록 화면
+     --------------------------------------------------------------- */
+  function renderRecords() {
+    renderBadges();
+
+    var list = $("record-list");
+    var empty = $("record-empty");
+    if (!list) { return; }
+    list.innerHTML = "";
+
+    var any = false;
+    BOOKS.forEach(function (book) {
+      var rec = recordOf(book.id);
+      if (!rec) { return; }
+      any = true;
+
+      var total = (book.questions && book.questions.length) ? book.questions.length : 0;
+      var best = typeof rec.best === "number" ? rec.best : 0;
+
+      var item = document.createElement("div");
+      item.className = "record-item";
+
+      var cover = document.createElement("span");
+      cover.className = "mini-cover";
+      var colors = (Array.isArray(book.colors) && book.colors.length === 2)
+        ? book.colors : ["#1e3a8a", "#2563eb"];
+      cover.style.background = "linear-gradient(150deg," +
+        safeColor(colors[0], "#1e3a8a") + " 0%," +
+        safeColor(colors[1], "#2563eb") + " 100%)";
+      cover.textContent = monogram(book);
+
+      var body = document.createElement("div");
+      body.className = "record-body";
+
+      var title = document.createElement("p");
+      title.className = "record-title";
+      title.textContent = book.title || "제목 없는 책";
+
+      var when = rec.lastPlayed ? rec.lastPlayed.slice(0, 10) : "";
+      var meta = document.createElement("p");
+      meta.className = "record-meta";
+      var bits = [];
+      if (rec.attempts) { bits.push(rec.attempts + "번 도전"); }
+      if (when) { bits.push("마지막 " + when); }
+      meta.textContent = bits.join(" · ") || "기록 없음";
+
+      body.appendChild(title);
+      body.appendChild(meta);
+
+      var side = document.createElement("div");
+      side.className = "record-side";
+
+      var score = document.createElement("span");
+      score.className = "record-score";
+      score.textContent = best + "/" + (rec.total || total);
+
+      var stars = document.createElement("span");
+      stars.className = "record-stars";
+      stars.textContent = starString(starsFor(best, rec.total || total));
+
+      side.appendChild(score);
+      side.appendChild(stars);
+
+      item.appendChild(cover);
+      item.appendChild(body);
+      item.appendChild(side);
+      list.appendChild(item);
+    });
+
+    if (empty) { empty.hidden = any; }
   }
 
   /* ---------------------------------------------------------------
@@ -1707,11 +2311,11 @@
   }
 
   /* ---------------------------------------------------------------
-     이동 / 주소(#/play/책id)
+     이동 / 주소(#/, #/shelf, #/records, #/play/책id)
      --------------------------------------------------------------- */
   function goHome(askFirst) {
     if (askFirst && session && currentScreen() === "quiz" && answeredCount() > 0) {
-      var ok = window.confirm("퀴즈를 그만두고 서재로 돌아갈까요?\n지금까지 푼 답은 저장되지 않아요.");
+      var ok = window.confirm("퀴즈를 그만두고 홈으로 돌아갈까요?\n지금까지 푼 답은 저장되지 않아요.");
       if (!ok) { return; }
     }
 
@@ -1720,17 +2324,17 @@
     } else {
       session = null;
       document.title = "북퀴즈 서재 · Book Quiz Hub";
-      showScreen("library");
-      renderLibrary();
+      showScreen("home");
+      renderHome();
     }
   }
 
   function route() {
     var hash = window.location.hash || "";
-    var match = /^#\/play\/(.+)$/.exec(hash);
+    var playMatch = /^#\/play\/(.+)$/.exec(hash);
 
-    if (match) {
-      var id = match[1];
+    if (playMatch) {
+      var id = playMatch[1];
       try { id = decodeURIComponent(id); } catch (err) { /* 원문 그대로 사용 */ }
 
       var book = findBook(id);
@@ -1742,26 +2346,82 @@
 
     session = null;
     document.title = "북퀴즈 서재 · Book Quiz Hub";
-    showScreen("library");
-    renderLibrary();
+
+    if (hash === "#/shelf") {
+      showScreen("shelf");
+      renderShelf();
+    } else if (hash === "#/records") {
+      showScreen("records");
+      renderRecords();
+    } else {
+      showScreen("home");
+      renderHome();
+    }
   }
 
   /* ---------------------------------------------------------------
      이벤트 연결 및 시작
      --------------------------------------------------------------- */
+  function startRecommended() {
+    var book = recommendedBook();
+    if (book) { openBook(book.id); }
+  }
+
+  function startReview() {
+    var book = reviewBook();
+    if (book) {
+      openBook(book.id);
+    } else {
+      /* 아쉬웠던 책이 없으면 기록 화면으로 안내합니다. */
+      if (window.location.hash === "#/records") {
+        route();
+      } else {
+        window.location.hash = "#/records";
+      }
+    }
+  }
+
   function init() {
     if (searchInput) {
-      searchInput.addEventListener("input", renderLibrary);
-      searchInput.addEventListener("search", renderLibrary);
+      searchInput.addEventListener("input", renderShelf);
+      searchInput.addEventListener("search", renderShelf);
     }
 
     if (searchClear) {
       searchClear.addEventListener("click", function () {
         searchInput.value = "";
-        renderLibrary();
+        renderShelf();
         searchInput.focus();
       });
     }
+
+    /* 홈 */
+    var heroStart = $("btn-hero-start");
+    if (heroStart) { heroStart.addEventListener("click", startRecommended); }
+    var qaReview = $("qa-review");
+    if (qaReview) { qaReview.addEventListener("click", startReview); }
+    var qaQuick = $("qa-quick");
+    if (qaQuick) { qaQuick.addEventListener("click", startRecommended); }
+    var qaShelf = $("qa-shelf");
+    if (qaShelf) { qaShelf.addEventListener("click", function () { window.location.hash = "#/shelf"; }); }
+    var qaRecords = $("qa-records");
+    if (qaRecords) { qaRecords.addEventListener("click", function () { window.location.hash = "#/records"; }); }
+    var moreShelf = $("btn-more-shelf");
+    if (moreShelf) { moreShelf.addEventListener("click", function () { window.location.hash = "#/shelf"; }); }
+
+    /* 하단 탭 */
+    Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (btn) {
+      btn.addEventListener("click", function () {
+        var tab = btn.getAttribute("data-tab");
+        if (tab === "quiz") { startRecommended(); return; }
+        var target = tab === "home" ? "#/" : "#/" + tab;
+        if (window.location.hash === target) {
+          route();
+        } else {
+          window.location.hash = target;
+        }
+      });
+    });
 
     $("btn-quit").addEventListener("click", function () { goHome(true); });
     $("btn-home").addEventListener("click", function () { goHome(false); });
@@ -1775,13 +2435,13 @@
     $("btn-back-result").addEventListener("click", function () { showScreen("result"); });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && currentScreen() !== "library") {
+      if (event.key === "Escape" && TAB_SCREENS[currentScreen()] === undefined) {
         goHome(true);
       }
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key !== "/" || currentScreen() !== "library") { return; }
+      if (event.key !== "/" || currentScreen() !== "shelf") { return; }
       var tag = (event.target && event.target.tagName) ? event.target.tagName.toLowerCase() : "";
       if (tag === "input" || tag === "textarea") { return; }
       event.preventDefault();
