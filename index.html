@@ -770,6 +770,13 @@
     border-radius:12px;
     background:#fff;
   }
+  .rev-note{
+    margin:0 0 4px;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:.04em;
+    color:#9aa7ba;
+  }
   .rev-q{
     margin:0 0 10px;
     font-size:15.5px;
@@ -1348,8 +1355,39 @@
     }
   }
 
+  /* 보기 순서 섞기 (객관식만). data-index 에는 books.js 의 원래 보기 번호를 그대로 두어
+     채점 · 오답 다시보기 · 저장 점수가 모두 원래 정답 번호를 기준으로 동작합니다. */
+  function identityOrder(count) {
+    var order = [];
+    for (var i = 0; i < count; i++) { order.push(i); }
+    return order;
+  }
+
+  function shuffledOrder(count) {
+    var order = identityOrder(count);
+    for (var i = order.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = order[i];
+      order[i] = order[j];
+      order[j] = tmp;
+    }
+    return order;
+  }
+
+  function displayOrderFor(question) {
+    var count = (question.options && question.options.length) ? question.options.length : 0;
+    if (count >= 3 && question.type !== "ox") { return shuffledOrder(count); }
+    return identityOrder(count); /* O/X 는 True → False 순서 고정 */
+  }
+
   function startSession(book) {
-    session = { book: book, index: 0, answers: [], locked: false };
+    session = {
+      book: book,
+      index: 0,
+      answers: [],
+      locked: false,
+      order: book.questions.map(displayOrderFor)
+    };
     document.title = book.title + " — 북퀴즈 서재";
     renderQuestion();
     showScreen("quiz");
@@ -1394,15 +1432,22 @@
     optionsBox.innerHTML = "";
     feedbackSlot.innerHTML = "";
 
-    (q.options || []).forEach(function (optionText, i) {
+    var order = session.order[session.index] || identityOrder((q.options || []).length);
+
+    order.forEach(function (originalIndex, displayIndex) {
+      var optionText = (q.options || [])[originalIndex];
+      if (typeof optionText === "undefined") { return; }
+
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "option";
-      btn.setAttribute("data-index", String(i));
+      btn.setAttribute("data-index", String(originalIndex));
 
       var badge = document.createElement("span");
       badge.className = "badge";
-      badge.textContent = q.type === "ox" ? (i === 0 ? "O" : "X") : (LETTERS[i] || String(i + 1));
+      badge.textContent = q.type === "ox"
+        ? (originalIndex === 0 ? "O" : "X")
+        : (LETTERS[displayIndex] || String(displayIndex + 1));
 
       var text = document.createElement("span");
       text.className = "opt-text";
@@ -1416,7 +1461,7 @@
       btn.appendChild(text);
       btn.appendChild(mark);
 
-      btn.addEventListener("click", function () { handleAnswer(i); });
+      btn.addEventListener("click", function () { handleAnswer(originalIndex); });
 
       optionsBox.appendChild(btn);
     });
@@ -1604,6 +1649,13 @@
 
       var item = document.createElement("div");
       item.className = "rev-item";
+
+      if (q.note) {
+        var note = document.createElement("p");
+        note.className = "rev-note";
+        note.textContent = q.note;
+        item.appendChild(note);
+      }
 
       var question = document.createElement("p");
       question.className = "rev-q";
