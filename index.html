@@ -149,6 +149,14 @@
   }
   .hero-cta:hover{ transform:translateY(-1px); }
   .hero-cta:active{ transform:translateY(1px); }
+  .hero-note{
+    margin:10px 0 0;
+    font-size:11.5px;
+    font-weight:600;
+    line-height:1.5;
+    opacity:.88;
+    word-break:keep-all;
+  }
 
   .ring{
     flex:0 0 auto;
@@ -212,7 +220,7 @@
     color:var(--muted);
   }
 
-  /* ==================== 빠른 실행 그리드 ==================== */
+  /* ==================== 섹션 헤더 · 필터 · 책 선택 ==================== */
   .section-head{
     display:flex;
     align-items:baseline;
@@ -241,81 +249,179 @@
   }
   .section-more:hover{ color:var(--accent-deep); }
 
-  .quick-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-  }
-  .quick-card{
+  .filter-row{
     display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:10px;
-    width:100%;
-    padding:18px 16px 16px;
-    text-align:left;
+    gap:8px;
+    margin:0 2px 14px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .filter-row::-webkit-scrollbar{ display:none; }
+  .filter-chip{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:9px 14px;
+    min-height:40px;
+    border:1.5px solid #efe6da;
+    border-radius:999px;
+    background:#fff;
+    color:#7a6e60;
     font-family:inherit;
-    color:inherit;
-    background:var(--panel);
-    border:0;
-    border-radius:20px;
-    box-shadow:var(--shadow);
-    cursor:pointer;
-    touch-action:manipulation;
-    transition:transform .15s, box-shadow .15s;
-  }
-  .quick-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lift); }
-  .quick-card:active{ transform:translateY(0); }
-  .quick-icon{
-    width:48px; height:48px;
-    border-radius:15px;
-    display:grid; place-items:center;
-    font-size:23px;
-    line-height:1;
-  }
-  .icon-sprout{ background:#fbf3d5; }
-  .icon-target{ background:#f3e8ff; }
-  .icon-book{ background:#e3efff; }
-  .icon-chart{ background:#e2f6e9; }
-  .quick-title{
-    font-size:16px;
+    font-size:13px;
     font-weight:800;
     letter-spacing:-.01em;
+    white-space:nowrap;
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:background .15s, border-color .15s, color .15s;
   }
-  .quick-sub{
-    margin-top:-5px;
-    font-size:12.5px;
-    font-weight:500;
-    color:var(--muted);
-    word-break:keep-all;
+  .filter-chip .count{
+    font-size:12px;
+    font-weight:800;
+    color:#b3a89b;
   }
+  .filter-chip:hover{ border-color:#ffd0ba; }
+  .filter-chip.is-active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+    box-shadow:0 10px 18px -12px rgba(255,90,60,.9);
+  }
+  .filter-chip.is-active .count{ color:rgba(255,255,255,.88); }
 
-  /* ==================== 책 카드 ==================== */
-  .recent-row{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-    gap:12px;
+  .picker-block{ scroll-margin-top:14px; }
+  .picker-group + .picker-group{ margin-top:18px; }
+  .picker-group-title{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin:0 2px 9px;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:-.01em;
+    color:#8d8377;
   }
-  .recent-card{
+  .picker-group-title::before{
+    content:"";
+    width:8px; height:8px;
+    border-radius:50%;
+    background:#ffb27a;
+  }
+  .picker-group-title.todo::before{ background:var(--accent); }
+  .picker-group-title.done::before{ background:var(--emerald); }
+
+  .picker-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:11px;
+  }
+  .picker-card{
+    position:relative;
     display:flex;
     flex-direction:column;
-    align-items:flex-start;
-    gap:8px;
+    gap:9px;
     width:100%;
-    padding:14px;
+    padding:13px 13px 12px;
     text-align:left;
     font-family:inherit;
     color:inherit;
     background:var(--panel);
-    border:0;
+    border:1.5px solid #ffe2d2;
     border-radius:18px;
     box-shadow:var(--shadow);
     cursor:pointer;
     touch-action:manipulation;
-    transition:transform .15s, box-shadow .15s;
+    transition:transform .15s, box-shadow .15s, border-color .15s;
   }
-  .recent-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lift); }
-  .recent-card:disabled{ cursor:default; opacity:.7; }
+  .picker-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-lift); border-color:#ffc9ad; }
+  .picker-card:active{ transform:translateY(0); }
+  .picker-card:disabled{ cursor:default; opacity:.65; }
+  .picker-card.is-done{
+    background:#f5fbf8;
+    border-color:#c9ebd8;
+  }
+  .picker-card.is-done:hover{ border-color:#a7dfc0; }
+  .picker-top{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    width:100%;
+  }
+  .pick-cover-wrap{
+    position:relative;
+    flex:0 0 auto;
+    display:block;
+    line-height:0;
+  }
+  .picker-card .mini-cover{
+    width:38px; height:50px;
+    border-radius:7px;
+    font-size:12.5px;
+  }
+  .mini-check{
+    position:absolute;
+    right:-5px; top:-5px;
+    width:17px; height:17px;
+    border-radius:50%;
+    display:grid; place-items:center;
+    background:var(--emerald);
+    color:#fff;
+    font-size:9.5px;
+    font-weight:800;
+    line-height:1;
+    box-shadow:0 0 0 2px #f5fbf8;
+  }
+  .picker-name{
+    flex:1 1 auto;
+    min-width:0;
+    font-size:12.5px;
+    line-height:1.35;
+    font-weight:800;
+    letter-spacing:-.01em;
+    color:var(--ink);
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    word-break:break-word;
+  }
+  .picker-status{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:auto;
+  }
+  .pick-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:3px;
+    padding:4px 8px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  .pick-chip.todo{ background:#fff1e7; color:#c2410c; box-shadow:inset 0 0 0 1px #ffd3ba; }
+  .pick-chip.done{ background:#e2f6e9; color:#047857; }
+  .pick-score{ font-size:11.5px; font-weight:800; color:#047857; white-space:nowrap; }
+  .picker-card .stars-mini{ font-size:11px; letter-spacing:.5px; }
+  .pick-go{ margin-left:auto; font-size:12px; font-weight:800; color:var(--accent); white-space:nowrap; }
+  .picker-card.is-done .pick-go{ color:#0f9d76; }
+
+  @keyframes pickGlow{
+    0%{ box-shadow:0 0 0 0 rgba(255,107,61,.4); }
+    100%{ box-shadow:0 0 0 12px rgba(255,107,61,0); }
+  }
+  .picker-block.is-flash .picker-card{ animation:pickGlow .9s ease-out 1; }
+  @media (prefers-reduced-motion:reduce){
+    .picker-block.is-flash .picker-card{ animation:none; }
+  }
+
+  /* ==================== 책 카드 ==================== */
   .mini-cover{
     width:44px; height:56px;
     border-radius:8px;
@@ -335,7 +441,7 @@
     background:rgba(0,0,0,.16);
   }
   .recent-title{
-    font-size:14px;
+    font-size:13.5px;
     line-height:1.35;
     font-weight:800;
     letter-spacing:-.01em;
@@ -539,8 +645,19 @@
     white-space:nowrap;
   }
   .chip-new{ background:#f4efe8; color:#8d8377; }
+  .chip-todo{ background:#fff1e7; color:#c2410c; box-shadow:inset 0 0 0 1px #ffd3ba; }
+  .chip-finish{ background:#e2f6e9; color:#047857; }
   .chip-done{ background:#fdeedd; color:#c2410c; }
   .chip-perfect{ background:#e2f6e9; color:#047857; }
+
+  .book-card.is-done{
+    background:#f6fbf8;
+    border:1.5px solid #d5eede;
+  }
+  .book-card.is-todo{
+    border:1.5px solid #ffe2d2;
+  }
+  .book-card.is-done:hover{ border-color:#b6e5c9; }
   .stars-mini{
     font-size:12px;
     letter-spacing:1px;
@@ -1115,8 +1232,10 @@
     .badge-pill{ padding:7px 10px; font-size:12px; }
     .hero-card{ padding:20px 18px; border-radius:22px; }
     .ring{ width:84px; height:84px; }
-    .quick-grid{ gap:11px; }
-    .quick-card{ padding:15px 14px 14px; }
+    .picker-grid{ gap:9px; }
+    .picker-card{ padding:12px 11px 11px; }
+    .picker-card .mini-cover{ width:34px; height:45px; font-size:11.5px; }
+    .picker-name{ font-size:12px; }
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1152,6 +1271,7 @@
         <p class="hero-kicker">북퀴즈 성장 대시보드</p>
         <p class="hero-title" id="hero-title">오늘 풀 퀴즈가 준비되어 있어요!</p>
         <button class="hero-cta" id="btn-hero-start" type="button">▶ 퀴즈 시작하기</button>
+        <p class="hero-note">아래에서 책을 고르면 바로 시작해요.</p>
       </div>
       <div class="ring" role="img" aria-label="달성률">
         <svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true">
@@ -1181,37 +1301,22 @@
       </div>
     </div>
 
-    <div class="section-head">
-      <p class="section-title">빠른 실행</p>
+    <div class="picker-block" id="picker-block">
+      <div class="section-head">
+        <p class="section-title">책 골라서 퀴즈 시작</p>
+        <button class="section-more" id="btn-more-shelf" type="button">전체 책장 →</button>
+      </div>
+      <div class="filter-row" id="home-filters" role="group" aria-label="푼 책과 안 푼 책 필터">
+        <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">전체 <span class="count" data-count="all">0</span></button>
+        <button class="filter-chip" type="button" data-filter="todo" aria-pressed="false">안 푼 책 <span class="count" data-count="todo">0</span></button>
+        <button class="filter-chip" type="button" data-filter="done" aria-pressed="false">푼 책 <span class="count" data-count="done">0</span></button>
+      </div>
+      <div id="picker-area"></div>
+      <div id="home-empty" class="empty" hidden>
+        <p class="empty-title">서재가 아직 비어 있어요</p>
+        <p class="empty-text">books.js 파일에 책을 한 권 넣으면 여기에 카드가 생깁니다.</p>
+      </div>
     </div>
-    <div class="quick-grid">
-      <button class="quick-card" id="qa-review" type="button">
-        <span class="quick-icon icon-sprout" aria-hidden="true">🌱</span>
-        <span class="quick-title">복습할 문제</span>
-        <span class="quick-sub">아쉬웠던 책 다시 풀기</span>
-      </button>
-      <button class="quick-card" id="qa-quick" type="button">
-        <span class="quick-icon icon-target" aria-hidden="true">🎯</span>
-        <span class="quick-title">바로 퀴즈</span>
-        <span class="quick-sub">추천 책 1권 바로 시작</span>
-      </button>
-      <button class="quick-card" id="qa-shelf" type="button">
-        <span class="quick-icon icon-book" aria-hidden="true">📚</span>
-        <span class="quick-title">전체 책장</span>
-        <span class="quick-sub">모든 책 보기 · 검색</span>
-      </button>
-      <button class="quick-card" id="qa-records" type="button">
-        <span class="quick-icon icon-chart" aria-hidden="true">📊</span>
-        <span class="quick-title">학습 기록</span>
-        <span class="quick-sub">점수와 모은 별 확인</span>
-      </button>
-    </div>
-
-    <div class="section-head">
-      <p class="section-title">최근 추가된 책</p>
-      <button class="section-more" id="btn-more-shelf" type="button">전체 보기 →</button>
-    </div>
-    <div class="recent-row" id="recent-row"></div>
 
     <footer class="foot">
       책을 한 권 읽고 퀴즈로 확인해 보세요.<br>
@@ -1240,6 +1345,12 @@
       <label class="sr-only" for="search-input">책 제목 검색</label>
       <input id="search-input" type="search" placeholder="책 제목을 검색" autocomplete="off" spellcheck="false" enterkeyhint="search">
       <button id="search-clear" class="search-clear" type="button" aria-label="검색어 지우기" hidden>✕</button>
+    </div>
+
+    <div class="filter-row" id="shelf-filters" role="group" aria-label="푼 책과 안 푼 책 필터" style="margin-top:14px;">
+      <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">전체 <span class="count" data-count="all">0</span></button>
+      <button class="filter-chip" type="button" data-filter="todo" aria-pressed="false">안 푼 책 <span class="count" data-count="todo">0</span></button>
+      <button class="filter-chip" type="button" data-filter="done" aria-pressed="false">푼 책 <span class="count" data-count="done">0</span></button>
     </div>
 
     <div class="section-head" style="margin-top:10px;">
@@ -1468,6 +1579,22 @@
     return (rec && typeof rec === "object") ? rec : null;
   }
 
+  function totalQuestions(book) {
+    return (book && book.questions && book.questions.length) ? book.questions.length : 0;
+  }
+
+  /* 푼 책 = 최고 점수가 저장된 책 · 안 푼 책 = 아직 기록이 없는 책 */
+  function isDone(book) {
+    var rec = recordOf(book.id);
+    return !!(totalQuestions(book) > 0 && rec && typeof rec.best === "number");
+  }
+
+  function matchesFilter(book, filter) {
+    if (filter === "todo") { return totalQuestions(book) > 0 && !isDone(book); }
+    if (filter === "done") { return isDone(book); }
+    return true;
+  }
+
   /* 점수를 저장하고 { isRecord, best, attempts } 를 돌려줍니다. */
   function saveScore(book, score, total) {
     var prev = recordOf(book.id);
@@ -1536,11 +1663,14 @@
       if (node) { node.classList.toggle("is-active", key === name); }
     });
     document.body.classList.toggle("no-nav", TAB_SCREENS[name] === undefined);
-    var activeTab = TAB_SCREENS[name];
-    Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (btn) {
-      btn.classList.toggle("is-active", btn.getAttribute("data-tab") === activeTab);
-    });
+    setActiveTab(TAB_SCREENS[name]);
     scrollTop();
+  }
+
+  function setActiveTab(tabName) {
+    Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-tab") === tabName);
+    });
   }
 
   function currentScreen() {
@@ -1570,36 +1700,47 @@
     });
   }
 
-  /* 바로 시작할 책 추천 : 아직 안 푼 첫 책 → 최근에 푼 책 → 첫 책 */
-  function recommendedBook() {
-    var playable = BOOKS.filter(function (b) { return b.questions && b.questions.length; });
-    if (!playable.length) { return null; }
-    var untouched = playable.filter(function (b) { return !recordOf(b.id); });
-    if (untouched.length) { return untouched[0]; }
-    var latest = null, latestTime = "";
-    playable.forEach(function (b) {
-      var rec = recordOf(b.id);
-      var stamp = (rec && rec.lastPlayed) ? rec.lastPlayed : "";
-      if (stamp > latestTime) { latestTime = stamp; latest = b; }
+  /* ---------------------------------------------------------------
+     책 상태 필터 (전체 / 안 푼 책 / 푼 책)
+     --------------------------------------------------------------- */
+  var homeFilter = "all";
+  var shelfFilter = "all";
+  var wantPicker = false;
+
+  function filterCounts() {
+    var todo = 0, done = 0;
+    BOOKS.forEach(function (book) {
+      if (isDone(book)) { done += 1; }
+      else if (totalQuestions(book) > 0) { todo += 1; }
     });
-    return latest || playable[0];
+    return { all: BOOKS.length, todo: todo, done: done };
   }
 
-  /* 마지막에 아쉬웠던 책 : 최근에 풀었으나 만점이 아닌 책 */
-  function reviewBook() {
-    var candidates = BOOKS.filter(function (b) {
-      var rec = recordOf(b.id);
-      if (!rec) { return false; }
-      var total = (b.questions && b.questions.length) ? b.questions.length : 0;
-      return total > 0 && rec.best < total;
+  function syncFilterBar(boxId, active) {
+    var box = $(boxId);
+    if (!box) { return; }
+    var counts = filterCounts();
+    Array.prototype.forEach.call(box.querySelectorAll(".filter-chip"), function (btn) {
+      var isActive = btn.getAttribute("data-filter") === active;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
-    var latest = null, latestTime = "";
-    candidates.forEach(function (b) {
-      var rec = recordOf(b.id);
-      var stamp = (rec && rec.lastPlayed) ? rec.lastPlayed : "";
-      if (stamp > latestTime) { latestTime = stamp; latest = b; }
+    Array.prototype.forEach.call(box.querySelectorAll("[data-count]"), function (span) {
+      span.textContent = String(counts[span.getAttribute("data-count")] || 0);
     });
-    return latest;
+  }
+
+  function wireFilterBar(boxId, onChange) {
+    var box = $(boxId);
+    if (!box) { return; }
+    box.addEventListener("click", function (event) {
+      var node = event.target;
+      while (node && node !== box && !(node.classList && node.classList.contains("filter-chip"))) {
+        node = node.parentNode;
+      }
+      if (!node || node === box) { return; }
+      onChange(node.getAttribute("data-filter"));
+    });
   }
 
   function renderHome() {
@@ -1635,25 +1776,101 @@
       }
     }
 
-    /* 최근 추가된 책 (books.js 뒤쪽에 추가한 순서 기준, 최대 3권) */
-    var row = $("recent-row");
-    if (row) {
-      row.innerHTML = "";
-      BOOKS.slice(-3).reverse().forEach(function (book) {
-        row.appendChild(recentCard(book));
-      });
+    /* 홈에서 바로 8권을 골라 시작할 수 있는 책 선택 영역 */
+    renderHomePicker();
+  }
+
+  function renderHomePicker() {
+    var area = $("picker-area");
+    var empty = $("home-empty");
+    if (!area) { return; }
+
+    area.innerHTML = "";
+    syncFilterBar("home-filters", homeFilter);
+
+    var todo = BOOKS.filter(function (b) { return matchesFilter(b, "todo"); });
+    var done = BOOKS.filter(function (b) { return matchesFilter(b, "done"); });
+
+    var groups = [];
+    if (homeFilter === "todo") {
+      groups.push({ label: "", books: todo, tone: "todo" });
+    } else if (homeFilter === "done") {
+      groups.push({ label: "", books: done, tone: "done" });
+    } else if (todo.length && done.length) {
+      groups.push({ label: "안 푼 책 " + todo.length + "권", books: todo, tone: "todo" });
+      groups.push({ label: "푼 책 " + done.length + "권", books: done, tone: "done" });
+    } else {
+      groups.push({ label: "", books: BOOKS, tone: "" });
+    }
+
+    var shown = 0;
+    groups.forEach(function (group) {
+      if (!group.books.length) { return; }
+      shown += group.books.length;
+
+      var wrap = document.createElement("div");
+      wrap.className = "picker-group";
+
+      if (group.label) {
+        var head = document.createElement("p");
+        head.className = "picker-group-title " + group.tone;
+        head.textContent = group.label;
+        wrap.appendChild(head);
+      }
+
+      var grid = document.createElement("div");
+      grid.className = "picker-grid";
+      group.books.forEach(function (book) { grid.appendChild(pickerCard(book)); });
+      wrap.appendChild(grid);
+      area.appendChild(wrap);
+    });
+
+    if (empty) {
+      empty.hidden = shown > 0;
+      if (shown === 0) {
+        var title = empty.querySelector(".empty-title");
+        var text = empty.querySelector(".empty-text");
+        if (!BOOKS.length) {
+          title.textContent = "서재가 아직 비어 있어요";
+          text.textContent = "books.js 파일에 책을 한 권 넣으면 여기에 카드가 생깁니다.";
+        } else if (homeFilter === "done") {
+          title.textContent = "아직 푼 책이 없어요";
+          text.textContent = "‘안 푼 책’에서 한 권 골라 시작해 보세요. 한 권을 끝내면 여기에 완료 표시가 생겨요.";
+        } else {
+          title.textContent = "모든 책을 다 풀었어요! 🎉";
+          text.textContent = "‘푼 책’에서 다시 풀며 최고 기록에 도전해 보세요.";
+        }
+      }
     }
   }
 
-  function recentCard(book) {
-    var total = (book.questions && book.questions.length) ? book.questions.length : 0;
+  function pickChip(text, variant) {
+    var span = document.createElement("span");
+    span.className = "pick-chip " + variant;
+    span.textContent = text;
+    return span;
+  }
+
+  function pickerCard(book) {
+    var total = totalQuestions(book);
     var rec = recordOf(book.id);
+    var best = (rec && typeof rec.best === "number") ? rec.best : null;
+    var done = total > 0 && best !== null;
 
     var card = document.createElement("button");
     card.type = "button";
-    card.className = "recent-card";
-    card.setAttribute("aria-label", book.title + " 퀴즈 열기");
+    card.className = "picker-card " + (done ? "is-done" : "is-todo");
+    card.setAttribute("data-book-id", book.id);
+    card.setAttribute("aria-label", done
+      ? book.title + " · 푼 책 · 최고 " + best + "/" + total + "점 · 다시 풀기"
+      : book.title + " · 안 푼 책 · 퀴즈 시작");
     if (total === 0) { card.disabled = true; }
+
+    var top = document.createElement("span");
+    top.className = "picker-top";
+
+    var coverWrap = document.createElement("span");
+    coverWrap.className = "pick-cover-wrap";
 
     var cover = document.createElement("span");
     cover.className = "mini-cover";
@@ -1663,26 +1880,75 @@
       safeColor(colors[0], "#1e3a8a") + " 0%," +
       safeColor(colors[1], "#2563eb") + " 100%)";
     cover.textContent = monogram(book);
+    coverWrap.appendChild(cover);
 
-    var title = document.createElement("span");
-    title.className = "recent-title";
-    title.textContent = book.title || "제목 없는 책";
-
-    var meta = document.createElement("span");
-    meta.className = "recent-meta";
-    if (total === 0) {
-      meta.textContent = "문제 준비 중";
-    } else if (rec && typeof rec.best === "number") {
-      meta.textContent = "최고 " + rec.best + "/" + total;
-    } else {
-      meta.textContent = total + "문항 · NEW";
+    if (done) {
+      var check = document.createElement("span");
+      check.className = "mini-check";
+      check.textContent = "✓";
+      check.setAttribute("aria-hidden", "true");
+      coverWrap.appendChild(check);
     }
 
-    card.appendChild(cover);
-    card.appendChild(title);
-    card.appendChild(meta);
+    var name = document.createElement("span");
+    name.className = "picker-name";
+    name.textContent = book.title || "제목 없는 책";
+
+    top.appendChild(coverWrap);
+    top.appendChild(name);
+
+    var status = document.createElement("span");
+    status.className = "picker-status";
+
+    if (total === 0) {
+      status.appendChild(pickChip("문제 준비 중", "todo"));
+    } else if (!done) {
+      status.appendChild(pickChip("도전 전", "todo"));
+      var go = document.createElement("span");
+      go.className = "pick-go";
+      go.textContent = "시작 →";
+      status.appendChild(go);
+    } else {
+      status.appendChild(pickChip("✓ 완료", "done"));
+      var score = document.createElement("span");
+      score.className = "pick-score";
+      score.textContent = best + "/" + total;
+      status.appendChild(score);
+      var stars = document.createElement("span");
+      stars.className = "stars-mini";
+      stars.textContent = starString(starsFor(best, total));
+      status.appendChild(stars);
+    }
+
+    card.appendChild(top);
+    card.appendChild(status);
     card.addEventListener("click", function () { openBook(book.id); });
     return card;
+  }
+
+  /* 히어로 CTA · 하단 ‘퀴즈’ 탭 : 책을 고르는 영역으로 이동 */
+  function scrollToPicker() {
+    var block = $("picker-block");
+    if (!block) { return; }
+    try { block.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    catch (err) { block.scrollIntoView(); }
+
+    block.classList.remove("is-flash");
+    void block.offsetWidth;
+    block.classList.add("is-flash");
+    window.setTimeout(function () { block.classList.remove("is-flash"); }, 1100);
+  }
+
+  function openPicker() {
+    if (window.location.hash === "#/" || window.location.hash === "") {
+      /* 이미 홈이면 다시 그리기만 하고 책 선택 영역으로 이동합니다. */
+      renderHome();
+      setActiveTab("quiz");
+      scrollToPicker();
+      return;
+    }
+    wantPicker = true;
+    window.location.hash = "#/";
   }
 
   /* ---------------------------------------------------------------
@@ -1786,8 +2052,11 @@
       status.appendChild(chip("문제 준비 중", "chip-new"));
       card.disabled = true;
     } else if (best === null) {
-      status.appendChild(chip("아직 안 풀었어요", "chip-new"));
+      card.classList.add("is-todo");
+      status.appendChild(chip("도전 전", "chip-todo"));
     } else {
+      card.classList.add("is-done");
+      status.appendChild(chip("✓ 완료", "chip-finish"));
       status.appendChild(chip(
         (best === total ? "만점 " : "최고 ") + best + "/" + total,
         best === total ? "chip-perfect" : "chip-done"
@@ -1821,9 +2090,12 @@
 
   function renderShelf() {
     renderBadges();
+    syncFilterBar("shelf-filters", shelfFilter);
 
     var query = searchInput ? searchInput.value.trim() : "";
-    var list = BOOKS.filter(function (book) { return bookMatches(book, query); });
+    var list = BOOKS.filter(function (book) {
+      return matchesFilter(book, shelfFilter) && bookMatches(book, query);
+    });
 
     bookGrid.innerHTML = "";
     list.forEach(function (book) { bookGrid.appendChild(bookCard(book)); });
@@ -1835,21 +2107,28 @@
       if (BOOKS.length === 0) {
         emptyTitle.textContent = "서재가 아직 비어 있어요";
         emptyText.textContent = "books.js 파일에 책을 한 권 넣으면 여기에 카드가 생깁니다.";
-      } else {
+      } else if (query) {
         emptyTitle.textContent = "앗, 그런 책은 아직 없어요";
-        emptyText.textContent = "다른 제목으로 찾아보거나, 서재에 새 책을 넣어 보세요.";
+        emptyText.textContent = "다른 제목으로 찾아보거나, 필터를 ‘전체’로 바꿔 보세요.";
+      } else if (shelfFilter === "done") {
+        emptyTitle.textContent = "아직 푼 책이 없어요";
+        emptyText.textContent = "‘안 푼 책’부터 도전해 보세요. 한 권을 마치면 여기에 모여요.";
+      } else {
+        emptyTitle.textContent = "안 푼 책이 없어요!";
+        emptyText.textContent = "모든 책을 다 풀었어요. ‘푼 책’에서 다시 풀며 기록을 올려 보세요.";
       }
     }
 
     if (searchClear) { searchClear.hidden = query.length === 0; }
 
+    var filterName = shelfFilter === "todo" ? "안 푼 책" : (shelfFilter === "done" ? "푼 책" : "전체 책장");
     if (shelfLabel) {
-      shelfLabel.textContent = query ? "검색 결과" : "전체 책장";
+      shelfLabel.textContent = query ? "검색 결과" : filterName;
     }
     if (shelfCount) {
       shelfCount.textContent = query
         ? "‘" + query + "’ · " + list.length + "권"
-        : "전체 " + BOOKS.length + "권";
+        : (shelfFilter === "all" ? "전체 " + list.length + "권" : list.length + "권");
     }
   }
 
@@ -2356,31 +2635,17 @@
     } else {
       showScreen("home");
       renderHome();
+      if (wantPicker) {
+        wantPicker = false;
+        setActiveTab("quiz");
+        scrollToPicker();
+      }
     }
   }
 
   /* ---------------------------------------------------------------
      이벤트 연결 및 시작
      --------------------------------------------------------------- */
-  function startRecommended() {
-    var book = recommendedBook();
-    if (book) { openBook(book.id); }
-  }
-
-  function startReview() {
-    var book = reviewBook();
-    if (book) {
-      openBook(book.id);
-    } else {
-      /* 아쉬웠던 책이 없으면 기록 화면으로 안내합니다. */
-      if (window.location.hash === "#/records") {
-        route();
-      } else {
-        window.location.hash = "#/records";
-      }
-    }
-  }
-
   function init() {
     if (searchInput) {
       searchInput.addEventListener("input", renderShelf);
@@ -2397,23 +2662,27 @@
 
     /* 홈 */
     var heroStart = $("btn-hero-start");
-    if (heroStart) { heroStart.addEventListener("click", startRecommended); }
-    var qaReview = $("qa-review");
-    if (qaReview) { qaReview.addEventListener("click", startReview); }
-    var qaQuick = $("qa-quick");
-    if (qaQuick) { qaQuick.addEventListener("click", startRecommended); }
-    var qaShelf = $("qa-shelf");
-    if (qaShelf) { qaShelf.addEventListener("click", function () { window.location.hash = "#/shelf"; }); }
-    var qaRecords = $("qa-records");
-    if (qaRecords) { qaRecords.addEventListener("click", function () { window.location.hash = "#/records"; }); }
+    if (heroStart) { heroStart.addEventListener("click", scrollToPicker); }
     var moreShelf = $("btn-more-shelf");
     if (moreShelf) { moreShelf.addEventListener("click", function () { window.location.hash = "#/shelf"; }); }
+
+    /* 필터 칩 */
+    wireFilterBar("home-filters", function (value) {
+      if (homeFilter === value) { return; }
+      homeFilter = value;
+      renderHomePicker();
+    });
+    wireFilterBar("shelf-filters", function (value) {
+      if (shelfFilter === value) { return; }
+      shelfFilter = value;
+      renderShelf();
+    });
 
     /* 하단 탭 */
     Array.prototype.forEach.call(document.querySelectorAll(".tab-btn"), function (btn) {
       btn.addEventListener("click", function () {
         var tab = btn.getAttribute("data-tab");
-        if (tab === "quiz") { startRecommended(); return; }
+        if (tab === "quiz") { openPicker(); return; }
         var target = tab === "home" ? "#/" : "#/" + tab;
         if (window.location.hash === target) {
           route();
