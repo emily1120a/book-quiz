@@ -303,7 +303,6 @@
     color:var(--muted);
   }
   .book-blurb{
-    display:none;
     margin-top:4px;
     font-size:12.5px;
     line-height:1.5;
@@ -377,6 +376,7 @@
     line-height:1.9;
     font-weight:500;
     color:#9aa7ba;
+    word-break:keep-all;
   }
 
   /* ==================== 버튼 ==================== */
@@ -421,10 +421,17 @@
 
   /* ==================== 퀴즈 ==================== */
   .panel{
+    max-width:760px;
+    margin:0 auto;
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:var(--radius);
     padding:22px;
+  }
+  #screen-result .btn{
+    max-width:420px;
+    margin-left:auto;
+    margin-right:auto;
   }
 
   .quiz-top{
