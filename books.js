@@ -178,5 +178,144 @@ window.BOOKS = [
         ko: "Skippy가 Officer Spence의 주머니에서 땅콩버터 젤리 샌드위치를 끄집어냈어요. 범인은 바로 Officer Spence! 어릴 때 엄마가 땅콩버터를 한 번도 먹게 해 주지 않아서 마음이 아프고 화가 났던 거래요. 그래서 Dr. Brad는 감옥이 아니라 도움이 필요하다고 했답니다."
       }
     ]
+  },
+  {
+    id: "mrs-jafee",
+    title: "Mrs. Jafee Is Daffy!",
+    series: "My Weird School Daze",
+    seriesNo: 6,
+    author: "Dan Gutman",
+    illustrator: "Jim Paillot",
+    mark: "MJ",
+    colors: ["#6b2d1f", "#d97706"],
+    blurb: "Mr. Klutz is away for four days, and the new vice principal, Mrs. Jafee, has some very weird ideas about how kids learn.",
+    blurbKo: "교장 선생님이 4일 동안 학교를 비운 사이, 새 교감 선생님이 이상한 방법으로 수업을 시작했어요.",
+    questions: [
+      {
+        type: "mc",
+        question: "What did Mr. Klutz tell everybody in the all-purpose room?",
+        note: "Chapter 1",
+        options: [
+          "That he was leaving for four days",
+          "That he was going to be a teacher",
+          "That the school was closing forever",
+          "That there was no more fizz ed"
+        ],
+        correct: 0,
+        en: "Mr. Klutz was holding a suitcase. Everybody thought he was leaving for good, but he was only going away for four days, to Principal Camp.",
+        ko: "Mr. Klutz는 여행 가방을 들고 있었어요. 모두가 교장 선생님이 그만두는 줄 알고 울었지만, 사실은 Principal Camp에 가려고 나흘 동안만 학교를 비우는 거였답니다."
+      },
+      {
+        type: "mc",
+        question: "Who is Mrs. Jafee?",
+        note: "Chapter 2",
+        options: [
+          "The new vice principal",
+          "The gym teacher",
+          "The lunch lady",
+          "The school secretary"
+        ],
+        correct: 0,
+        en: "Mrs. Jafee is the new vice principal at Ella Mentry School. She says things like “Howdy, guys and gals!” and “You betcha!”",
+        ko: "Mrs. Jafee는 Ella Mentry School의 새 교감 선생님이에요. “Howdy, guys and gals!”, “You betcha!”처럼 재미있는 말투로 이야기한답니다."
+      },
+      {
+        type: "ox",
+        question: "Mr. Klutz wanted everything to be nice and calm, so Mrs. Jafee hired a string quartet to play music in the hallway.",
+        note: "Chapter 3 · True or False?",
+        options: ["True", "False"],
+        correct: 0,
+        en: "On Tuesday morning four grown-ups in black suits and dresses were playing violins in the hall. Mrs. Jafee said studies show children relax and learn better with soothing music.",
+        ko: "화요일 아침, 검은 정장을 입은 어른 네 명이 복도에서 바이올린을 켜고 있었어요. Mrs. Jafee는 잔잔한 음악을 들으면 아이들이 편안해져서 더 잘 배운다는 연구 결과가 있다고 했답니다."
+      },
+      {
+        type: "mc",
+        question: "Who became the new gym (fizz ed) teacher?",
+        note: "Chapter 4",
+        options: [
+          "Swami Havabanana",
+          "Miss Small",
+          "Mr. Granite",
+          "Mr. Klutz"
+        ],
+        correct: 0,
+        en: "Mrs. Jafee fired Miss Small and brought in Swami Havabanana from India. Instead of sports and games, he taught the class yoga.",
+        ko: "Mrs. Jafee는 Miss Small을 내보내고 인도에서 온 Swami Havabanana를 데려왔어요. 운동 대신 요가를 가르쳤답니다."
+      },
+      {
+        type: "ox",
+        question: "Swami Havabanana's yoga class was so relaxing that all the kids fell asleep.",
+        note: "Chapter 5 · True or False?",
+        options: ["True", "False"],
+        correct: 0,
+        en: "The kids lay on the floor and breathed deeply. Soon everybody was asleep, and A.J. dreamed about Yoda and Yogi doing yoga on YouTube. Mrs. Jafee was so angry that she fired Swami Havabanana!",
+        ko: "아이들은 바닥에 누워 깊게 숨을 쉬었어요. 곧 모두 잠들었고, A.J.는 요다와 요기가 유튜브에서 요가하는 꿈을 꿨어요. 화가 난 Mrs. Jafee는 Swami를 해고했답니다."
+      },
+      {
+        type: "mc",
+        question: "The soldier in the gray uniform in the media center was really ...",
+        note: "Chapter 6",
+        options: [
+          "Mrs. Roopy, the librarian",
+          "Mr. Klutz",
+          "Mr. Granite",
+          "Mrs. Patty, the secretary"
+        ],
+        correct: 0,
+        en: "The man said he was General Stonewall Jackson from the Civil War. But he had one arm and looked a lot like Mrs. Roopy, so the kids knew it was their librarian in a costume.",
+        ko: "그 남자는 자신이 남북전쟁의 Stonewall Jackson 장군이라고 했어요. 그런데 팔이 하나뿐이고 Mrs. Roopy와 꼭 닮아서, 아이들은 사서 선생님이 분장한 걸 알아챘답니다."
+      },
+      {
+        type: "ox",
+        question: "Mrs. Jafee got the swimming pool so the kids could swim and have fun.",
+        note: "Chapter 7 · True or False?",
+        options: ["True", "False"],
+        correct: 1,
+        en: "The pool came from Rent-A-Pool, but it was not for swimming. Mrs. Jafee wanted the kids to learn Civil War spelling words underwater, and she pushed them all in!",
+        ko: "수영장은 Rent-A-Pool에서 빌려온 거예요. 하지만 수영을 하려는 게 아니었어요. Mrs. Jafee는 물속에서 남북전쟁 단어의 철자를 외우게 하려고 아이들을 모두 밀어 넣었답니다."
+      },
+      {
+        type: "mc",
+        question: "What did the kids think Mrs. Jafee was planning to do?",
+        note: "Chapter 8",
+        options: [
+          "Take Mr. Klutz's job",
+          "Move to India",
+          "Close the school",
+          "Become a gym teacher"
+        ],
+        correct: 0,
+        en: "The kids thought Mrs. Jafee sent Mr. Klutz away so she could take over the school. Then she showed them a letter from him at Principal Camp and her new kitten, Mister Fur Columbus.",
+        ko: "아이들은 Mrs. Jafee가 교장 자리를 차지하려고 Mr. Klutz를 내보낸 줄 알았어요. 그런데 Mrs. Jafee는 Principal Camp에서 온 편지와 새끼 고양이 Mister Fur Columbus를 보여 줬답니다."
+      },
+      {
+        type: "mc",
+        question: "What was on Mrs. Jafee's desk when A.J. came to her office on Thursday?",
+        note: "Chapter 9",
+        options: [
+          "Cake, cookies, candy, and a tub of ice cream",
+          "A big pile of books",
+          "A bed of nails",
+          "A swimming pool"
+        ],
+        correct: 0,
+        en: "A.J. had said kids learn better if they eat ice cream, cookies, cake, and candy. So Mrs. Jafee did an experiment and made him eat all of it while he read a book. At first it was the greatest moment of his life!",
+        ko: "A.J.가 '아이들은 아이스크림, 쿠키, 케이크, 사탕을 먹으면 더 잘 배운다'고 말했었어요. 그래서 Mrs. Jafee는 실험을 한다며 책을 읽는 A.J.에게 그것들을 계속 먹였답니다. 처음에는 인생 최고의 순간이었지만 나중에는 배가 아팠어요."
+      },
+      {
+        type: "mc",
+        question: "How did Mr. Klutz come back to school on Friday?",
+        note: "Chapter 11",
+        options: [
+          "He jumped out of a plane with a parachute",
+          "He came in a taxi from the airport",
+          "He rode the school bus",
+          "He walked all the way home"
+        ],
+        correct: 0,
+        en: "Mr. Klutz learned parachuting at Principal Camp. He jumped out of the plane and landed SPLASH in the swimming pool, because he can't swim! Stonewall Jackson pulled him out.",
+        ko: "Mr. Klutz는 Principal Camp에서 낙하산을 배웠어요. 비행기 밖으로 뛰어내려 수영장에 첨벙 떨어졌답니다. 수영을 못 하니까 Stonewall Jackson이 그를 끌어냈어요."
+      }
+    ]
   }
 ];
